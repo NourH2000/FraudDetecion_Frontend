@@ -22,11 +22,11 @@ import {Grid, Icon} from "@mui/material"
 import {
   BrowserRouter as Router,
   Route,
-  Switch
+  Switch,
+  Link
 } from "react-router-dom";
 import {routes} from "./routes"
-import {items} from "./item"
-console.log(items)
+import {items} from "./items"
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
@@ -128,14 +128,17 @@ export default function Layout() {
         <List>
           {items.map((content, index) => {
            if(content?.type==="item") 
-           {return <ListItem key={index} disablePadding>
+           {return <Link to={content.path}>
+            <ListItem key={index} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
                   <Icon>{content.icon}</Icon>
                 </ListItemIcon>
                 <ListItemText primary={content.label} />
               </ListItemButton>
-            </ListItem>}
+            </ListItem>
+          </Link>
+            }
        
         return  <Divider />
 })}
