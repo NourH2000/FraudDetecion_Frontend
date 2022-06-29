@@ -2,6 +2,7 @@
   "name": "fraud-detect",
   "private": true,
   "version": "0.0.0",
+  "proxy":  "http://localhost:8000",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

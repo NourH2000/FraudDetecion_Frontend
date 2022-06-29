@@ -1,9 +1,9 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import Layout from "./Layout"
+import React from "react";
+import ReactDOM from "react-dom/client";
+import Layout from "./Layout";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-      <Layout />
+    <Layout />
   </React.StrictMode>
-)
+);
