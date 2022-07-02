@@ -19,11 +19,12 @@ const Form = () => {
   const [valueTwo, setValueTwo] = React.useState(new Date());
 
   const handleChangevalueTwo = (newValueTwo) => {
+    newValueTwo = moment(newValueTwo).format("YYYY-MM-DD");
     setValueTwo(newValueTwo);
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} locale={itLocale}>
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3}>
         <DesktopDatePicker
           label="De"

@@ -2,9 +2,10 @@ import Cards from "./components/Overview/Cards";
 import Barchart from "./components/Overview/Barchart";
 import Overview from "./components/Overview/Overview";
 import Table from "./components/Table";
-import TablePPAHistorique from "./components/PPA/TablePPAHistorique";
+import TablePPAHistorique from "./components/History/TablePPAHistorique";
 import Historique from "./components/PPA/Historique";
 import Form from "./components/PPA/Form";
+import Datagrid from "./components/History/Datagrid";
 
 export const routes = [
   { path: "/data-visualizer", component: Table },
@@ -14,6 +15,7 @@ export const routes = [
   { path: "/TablePPA", component: TablePPAHistorique },
   { path: "/Historique", component: Historique },
   { path: "/Form", component: Form },
+  { path: "/Datagrid", component: Datagrid },
 
   //add your routes here
 ];

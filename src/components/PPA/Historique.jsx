@@ -11,7 +11,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import TablePPAHistorique from "./TablePPAHistorique";
+import TablePPAHistorique from "../History/TablePPAHistorique";
 import Form from "./Form";
 
 const Historique = () => {

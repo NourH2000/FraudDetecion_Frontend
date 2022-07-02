@@ -59,7 +59,7 @@ const rows = [
   createData("Brazil", "BR", 210147125, 8515767),
 ];
 
-const TablePPAHistorique = ({ md, xs }) => {
+const TablePPAHistorique = (props) => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -72,14 +72,13 @@ const TablePPAHistorique = ({ md, xs }) => {
     setPage(0);
   };
 
+  const { className, sorting, setSorting, query, cubejsApi, ...rest } = props;
+  const handleSetSorting = (str) => {
+    setSorting([str, sorting[1] === "desc" ? "asc" : "desc"]);
+  };
   return (
     <Grid container>
-      <Grid
-        item
-        xs={xs ? xs : 10}
-        md={md ? md : 10}
-        style={{ padding: "25px" }}
-      >
+      <Grid item style={{ padding: "25px" }} xs={12}>
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
@@ -90,6 +89,9 @@ const TablePPAHistorique = ({ md, xs }) => {
                       key={column.id}
                       align={column.align}
                       style={{ minWidth: column.minWidth }}
+                      onClick={() => {
+                        handleSetSorting(`${item.value}`);
+                      }}
                     >
                       {column.label}
                     </StyledTableCell>
