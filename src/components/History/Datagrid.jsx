@@ -1,25 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
+import { color } from "@mui/system";
+import { getFetcher } from "../../helpers/index";
 
+// 1/ columns
 const columns = [
-  { field: "id", headerName: "ID" },
-  { field: "title", headerName: "Title", width: 300 },
-  { field: "body", headerName: "Body", width: 600 },
+  { field: "id", headerName: "Id", width: 300 },
+  { field: "type", headerName: "Type", width: 300 },
+  { field: "date", headerName: "Date of Training", width: 300 },
 ];
 const Datagrid = () => {
   const [tableData, setTableData] = useState([]);
 
+  // fetch the data :
+
   useEffect(() => {
-    fetch("/historique/HistoryOfTraining")
-      .then((data) => data)
-      .then((data) => setTableData(data));
+    fetch("http://localhost:8000/historique/HistoryOfTraining")
+      .then((res) => res.json())
+      .then((json) => setTableData(json));
   }, []);
 
-  console.log(tableData);
+  const HistoryRow = tableData?.map((row) => {
+    return {
+      id: row?.id,
+      type: row?.type,
+      date: row?.date,
+    };
+  });
 
   return (
     <div style={{ height: 700, width: "100%" }}>
-      <DataGrid rows={tableData} columns={columns} pageSize={12} />
+      <DataGrid
+        sx={{ border: "none" }}
+        autoHeight
+        rows={HistoryRow}
+        columns={columns}
+        pageSize={12}
+      />
     </div>
   );
 };

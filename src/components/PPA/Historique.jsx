@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
+import Datagrid from "../History/Datagrid";
 import {
   Box,
   Button,
@@ -53,7 +54,7 @@ const Historique = () => {
           <Grid container spacing={2}>
             <Grid spacing={0} item xs={9}>
               <ItemGrid>
-                <TablePPAHistorique xs={12} md={12} />
+                <Datagrid xs={12} md={12} />
               </ItemGrid>
             </Grid>
             <Grid item xs={3}>
