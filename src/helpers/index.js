@@ -1,3 +1,4 @@
+import axios from "axios";
 export async function getFetcher(url) {
   const response = await fetch(url);
   if (!response.ok) {
@@ -15,6 +16,7 @@ export async function postFetcher(
     allowed_headers: "Content-Type,Authorization",
     headers: {
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
       Accept: "application/json",
     },
     body: JSON.stringify(data),

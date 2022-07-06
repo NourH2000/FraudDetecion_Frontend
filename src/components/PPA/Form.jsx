@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -6,63 +6,136 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import itLocale from "date-fns/locale/it";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import moment from "moment";
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-
+import ClearAllIcon from "@mui/icons-material/ClearAll";
+import SendIcon from "@mui/icons-material/Send";
+import { postFetcher } from "../../helpers/index";
+import axios from "axios";
 const Form = () => {
-  const [valueOne, setValueOne] = React.useState(new Date());
+  //initial values
+  const today = new Date();
+  const [valueOne, setValueOne] = useState(moment(today).format("YYYY-MM-DD"));
+  const [valueTwo, setValueTwo] = useState(moment(today).format("YYYY-MM-DD"));
 
+  // values choosed
   const handleChangevalueOne = (newValueOne) => {
     newValueOne = moment(newValueOne).format("YYYY-MM-DD");
     setValueOne(newValueOne);
-    console.log(newValueOne);
   };
-
-  const [valueTwo, setValueTwo] = React.useState(new Date());
 
   const handleChangevalueTwo = (newValueTwo) => {
     newValueTwo = moment(newValueTwo).format("YYYY-MM-DD");
     setValueTwo(newValueTwo);
   };
 
-  return (
-    <Grid>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <Stack spacing={3}>
-          <DesktopDatePicker
-            label="De"
-            inputFormat="dd/MM/yyyy"
-            value={valueOne}
-            onChange={handleChangevalueOne}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                inputProps={{ ...params.inputProps, placeholder: "dd/mm/aaaa" }}
-              />
-            )}
-          />
+  // get data and call the model :
+  const data = { date_debut: valueOne, date_fin: valueTwo };
+  const callModel = async (data) => {
+    const res = await axios.post(
+      "http://localhost:8000/models/quantitymodel",
+      data
+    );
+  };
 
-          <DesktopDatePicker
-            label="Jusqu'a"
-            inputFormat="dd/MM/yyyy"
-            value={valueTwo}
-            onChange={handleChangevalueTwo}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                inputProps={{ ...params.inputProps, placeholder: "dd/mm/aaaa" }}
-              />
-            )}
-          />
+  // call model handler button
+  const callModelHandler = () => {
+    callModel(data);
+  };
+
+  // find the max and min date allowed
+  const [maxDate, setMaxDate] = useState(moment(today).format("YYYY-MM-DD"));
+  const [minDate, setMinDate] = useState(moment(today).format("YYYY-MM-DD"));
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/models/getMindate").then((response) => {
+      setMinDate(response.data.date_paiement_min);
+      setValueOne(response.data.date_paiement_min);
+    });
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/models/getMaxdate").then((response) => {
+      setMaxDate(response.data.date_paiement_max);
+      setValueTwo(response.data.date_paiement_max);
+    });
+  }, []);
+
+  // Clear all
+  const ClearAll = () => {
+    setValueOne(minDate);
+    setValueTwo(maxDate);
+  };
+
+  return (
+    <Grid
+      container
+      direction="row"
+      justifyContent="flex-start"
+      spacing={3}
+      pr={1}
+      pl={1}
+    >
+      <Grid item>
+        <Typography variant="h6" sx={{ color: "black " }}>
+          New training
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <Stack spacing={2}>
+            <DesktopDatePicker
+              label="De"
+              inputFormat="dd/MM/yyyy"
+              value={valueOne}
+              minDate={minDate}
+              maxDate={maxDate}
+              onChange={handleChangevalueOne}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  inputProps={{
+                    ...params.inputProps,
+                    placeholder: "dd/mm/aaaa",
+                  }}
+                />
+              )}
+            />
+
+            <DesktopDatePicker
+              label="Jusqu'a"
+              inputFormat="dd/MM/yyyy"
+              value={valueTwo}
+              minDate={minDate}
+              maxDate={maxDate}
+              onChange={handleChangevalueTwo}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  inputProps={{
+                    ...params.inputProps,
+                    placeholder: "dd/mm/aaaa",
+                  }}
+                />
+              )}
+            />
+          </Stack>
+        </LocalizationProvider>
+      </Grid>
+      <Grid item xs={12}>
+        <Stack direction="row" justifyContent="space-between">
+          <Button
+            variant="text"
+            endIcon={<SendIcon />}
+            onClick={callModelHandler}
+          >
+            Send
+          </Button>
+          <IconButton aria-label="delete" size="large" onClick={ClearAll}>
+            <ClearAllIcon fontSize="inherit" />
+          </IconButton>
         </Stack>
-      </LocalizationProvider>
-      <Stack direction="row" spacing={2}>
-        <Button variant="contained">Contained</Button>
-        <IconButton aria-label="delete" size="small">
-          <DeleteIcon fontSize="inherit" />
-        </IconButton>
-      </Stack>
+      </Grid>
     </Grid>
   );
 };

@@ -16,11 +16,12 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
 import { routes } from "./routes";
 import { Grid, Icon } from "@mui/material";
 import { items } from "./items";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+
 const drawerWidth = 240;
 
 function ResponsiveDrawer(props) {
@@ -62,7 +63,7 @@ function ResponsiveDrawer(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Router>
+    <BrowserRouter>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar
@@ -140,15 +141,20 @@ function ResponsiveDrawer(props) {
             md={12}
             style={{ display: "flex", padding: 60 }}
           >
-            <Switch>
-              {routes.map((item) => (
-                <Route exact path={item.path} component={item.component} />
+            <Routes>
+              {routes.map((item, Index) => (
+                <Route
+                  exact
+                  Key={Index}
+                  path={item.path}
+                  element={<item.component />}
+                />
               ))}
-            </Switch>
+            </Routes>
           </Grid>
         </Box>
       </Box>
-    </Router>
+    </BrowserRouter>
   );
 }
 

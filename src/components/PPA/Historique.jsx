@@ -12,7 +12,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import TablePPAHistorique from "../History/TablePPAHistorique";
 import Form from "./Form";
 
 const Historique = () => {
@@ -53,16 +52,12 @@ const Historique = () => {
         <ItemStack>
           <Grid container spacing={2}>
             <Grid spacing={0} item xs={9}>
-              <ItemGrid>
+              <ItemGrid sx={{ padding: "3%" }}>
                 <Datagrid xs={12} md={12} />
               </ItemGrid>
             </Grid>
             <Grid item xs={3}>
               <ItemGrid elevation={3}>
-                <Typography variant="h6" mb={4}>
-                  {" "}
-                  The next{" "}
-                </Typography>
                 <Form />
               </ItemGrid>
             </Grid>
