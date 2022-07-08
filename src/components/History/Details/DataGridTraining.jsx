@@ -4,7 +4,7 @@ import { color } from "@mui/system";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { Typography } from "@mui/material";
-
+import Cards from "./CardsDetails";
 // 1/ columns
 const columns = [
   { field: "id", headerName: "Id", width: 300 },
@@ -12,11 +12,11 @@ const columns = [
   { field: "Nombre_total", headerName: "total", width: 300 },
   {
     field: "Nombre_suspécieux",
-    headerName: "cas suspécieux",
+    headerName: "cas suspect",
     width: 300,
   },
 ];
-const Details = () => {
+const DataGridTraining = () => {
   const location = useLocation();
 
   //data
@@ -66,4 +66,4 @@ const Details = () => {
   );
 };
 
-export default Details;
+export default DataGridTraining;

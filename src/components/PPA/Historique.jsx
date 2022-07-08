@@ -39,7 +39,7 @@ const Historique = () => {
         <ItemStack elevation={0}>
           <Grid container spacing={2}>
             <Grid item xs={4}>
-              <ItemGrid>// un espace pour les cartes</ItemGrid>
+              <ItemGrid></ItemGrid>
             </Grid>
             <Grid item xs={4}>
               <ItemGrid>// un espace pour les cartes</ItemGrid>
