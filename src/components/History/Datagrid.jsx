@@ -57,13 +57,12 @@ const Datagrid = () => {
   const navigateToDetails = (id) => {
     // 👇️ navigate to /contacts
     navigate("/DetailOfTraining", { state: { idHistory: id } });
-    console.log(id);
   };
 
   const [pageSize, setPageSize] = useState(20);
 
   return (
-    <div style={{ height: 700, width: "100%" }}>
+    <div style={{ height: "100%", width: "100%" }}>
       <DataGrid
         sx={{ border: "none" }}
         rows={HistoryRow}

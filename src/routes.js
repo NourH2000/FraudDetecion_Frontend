@@ -7,6 +7,7 @@ import Form from "./components/PPA/Form";
 import Datagrid from "./components/History/Datagrid";
 import DataGridTraining from "./components/History/Details/DataGridTraining";
 import DetailOfTraining from "./components/History/Details/DetailOfTraining";
+import DonutChart from "./components/History/Details/DonutChart";
 export const routes = [
   { path: "/data-visualizer", component: Table },
   { path: "/OverView", component: Overview },
@@ -17,6 +18,7 @@ export const routes = [
   { path: "/Datagrid", component: Datagrid },
   { path: "/DataGridTraining", component: DataGridTraining },
   { path: "/DetailOfTraining", component: DetailOfTraining },
+  { path: "/DonutChart", component: DonutChart },
 
   //add your routes here
 ];

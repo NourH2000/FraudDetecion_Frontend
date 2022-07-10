@@ -50,9 +50,9 @@ const Historique = () => {
           </Grid>
         </ItemStack>
         <ItemStack>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} sx={{}}>
             <Grid spacing={0} item xs={9}>
-              <ItemGrid sx={{ padding: "3%" }}>
+              <ItemGrid sx={{ padding: "3%", height: 800 }}>
                 <Datagrid xs={12} md={12} />
               </ItemGrid>
             </Grid>

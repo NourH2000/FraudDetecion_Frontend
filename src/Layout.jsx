@@ -135,11 +135,12 @@ function ResponsiveDrawer(props) {
           }}
         >
           <Toolbar />
+
           <Grid
             container
             xs={12}
             md={12}
-            style={{ display: "flex", padding: 60 }}
+            style={{ display: "flex", paddingTop: 60 }}
           >
             <Routes>
               {routes.map((item, Index) => (
