@@ -16,13 +16,13 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Link, Navigate } from "react-router-dom";
 import { routes } from "./routes";
-import { Grid, Icon } from "@mui/material";
+import { Grid, Icon, Stack } from "@mui/material";
 import { items } from "./items";
-import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import DashboardIcon from "@mui/icons-material/Dashboard";
 
-const drawerWidth = 240;
+const drawerWidth = 300;
 
 function ResponsiveDrawer(props) {
   const { window } = props;
@@ -34,8 +34,24 @@ function ResponsiveDrawer(props) {
 
   const drawer = (
     <div>
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        spacing={3}
+        mt={7}
+      >
+        <DashboardIcon sx={{ fontSize: 40, color: "white" }} />
+        <Typography
+          variant="h4"
+          color="white"
+          sx={{ fontWeight: "bold", paddingTop: "2%" }}
+        >
+          Dashboard
+        </Typography>
+      </Stack>
+      {/*<Divider sx={{ backgroundColor: "white" }} />*/}
       <Toolbar />
-      <Divider />
       <List>
         {items.map((item) => {
           if (item?.type === "item") {
@@ -44,16 +60,27 @@ function ResponsiveDrawer(props) {
                 <ListItem key={item.label} sx={{ padding: "10px" }}>
                   <ListItemButton>
                     <ListItemIcon>
-                      <Icon>{item.icon}</Icon>
+                      <Icon sx={{ color: "white" }}>{item.icon}</Icon>
                     </ListItemIcon>
-                    <ListItemText primary={item.label} />
+                    <ListItemText
+                      sx={{ color: "white" }}
+                      primary={item.label}
+                    />
                   </ListItemButton>
                 </ListItem>
               </Link>
             );
           }
 
-          return <Divider />;
+          return (
+            <Divider
+              variant="middle"
+              textAlign="left"
+              sx={{ color: "#606470" }}
+            >
+              {item.label}
+            </Divider>
+          );
         })}
       </List>
     </div>
@@ -66,11 +93,13 @@ function ResponsiveDrawer(props) {
     <BrowserRouter>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
+
         <AppBar
           position="fixed"
           sx={{
             width: { sm: `calc(100% - ${drawerWidth}px)` },
             ml: { sm: `${drawerWidth}px` },
+            backgroundColor: "white",
           }}
         >
           <Toolbar>
@@ -83,9 +112,6 @@ function ResponsiveDrawer(props) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
-              Responsive drawer
-            </Typography>
           </Toolbar>
         </AppBar>
         <Box
@@ -107,6 +133,7 @@ function ResponsiveDrawer(props) {
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
                 width: drawerWidth,
+                backgroundColor: "#113f67",
               },
             }}
           >
@@ -119,6 +146,7 @@ function ResponsiveDrawer(props) {
               "& .MuiDrawer-paper": {
                 boxSizing: "border-box",
                 width: drawerWidth,
+                backgroundColor: "#113f67",
               },
             }}
             open
@@ -132,6 +160,7 @@ function ResponsiveDrawer(props) {
             flexGrow: 1,
             p: 3,
             width: { sm: `calc(100% - ${drawerWidth}px)` },
+            backgroundColor: "#e7eaf6",
           }}
         >
           <Toolbar />
@@ -140,7 +169,10 @@ function ResponsiveDrawer(props) {
             container
             xs={12}
             md={12}
-            style={{ display: "flex", paddingTop: 60 }}
+            style={{
+              display: "flex",
+              paddingTop: 60,
+            }}
           >
             <Routes>
               {routes.map((item, Index) => (
@@ -151,6 +183,7 @@ function ResponsiveDrawer(props) {
                   element={<item.component />}
                 />
               ))}
+              <Route path={"*"} element={<Navigate to={"/overview"} />} />
             </Routes>
           </Grid>
         </Box>

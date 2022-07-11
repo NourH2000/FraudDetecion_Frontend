@@ -46,13 +46,19 @@ const DetailOfTraining = () => {
   }));
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Stack spacing={1} sx={{ width: "100%", backgroundColor: "red" }}>
-        <ItemStack elevation={0}>
+    <>
+      <Stack spacing={1} sx={{ width: "100%" }}>
+        <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
           <Grid container xs={12} gap={0} justifyContent="space-between">
             <Grid item xs={7.5}>
               <Stack spacing={1}>
-                <ItemStack sx={{ boxShadow: "none", textAlign: "center" }}>
+                <ItemStack
+                  sx={{
+                    boxShadow: "none",
+                    textAlign: "center",
+                    backgroundColor: "transparent",
+                  }}
+                >
                   <Grid container spacing={3}>
                     <Grid item xs={6}>
                       <Cards type={CountMedicament} />
@@ -93,7 +99,7 @@ const DetailOfTraining = () => {
           </Grid>
         </ItemStack>
       </Stack>
-    </Box>
+    </>
   );
 };
 

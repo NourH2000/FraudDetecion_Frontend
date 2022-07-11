@@ -1,51 +1,87 @@
 import React, { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { color } from "@mui/system";
-import { useLocation } from "react-router-dom";
 import axios from "axios";
-import { Typography, Paper, Stack, Divider } from "@mui/material";
-import Cards from "./CardsDetails";
-import { makeStyles } from "@mui/styles";
+import { useNavigate } from "react-router-dom";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
+import {
+  Alert,
+  Grid,
+  Snackbar,
+  Stack,
+  Toolbar,
+  Paper,
+  Typography,
+  Divider,
+} from "@mui/material";
+import clsx from "clsx";
 import { styled, createStyles } from "@mui/material/styles";
 
 // 1/ columns
 const columns = [
-  { field: "id", headerName: "Id", width: 300 },
-  { field: "Médicament", headerName: "Médicament", width: 150 },
-  { field: "Nombre_total", headerName: "total", width: 150 },
   {
-    field: "Nombre_suspécieux",
-    headerName: "cas suspect",
-    width: 300,
+    field: "id",
+    headerName: "Id",
+    width: 200,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "type",
+    headerName: "Type",
+    width: 200,
+    sortable: false,
+    filterable: false,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "date",
+    headerName: "Date of Training",
+    width: 320,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    align: "center",
+
+    width: 320,
+    cellClassName: (params) => {
+      return clsx("super-app", {
+        Success: params.value == "Success",
+        Failed: params.value == "Failed",
+        Processing: params.value == "Processing",
+      });
+    },
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
   },
 ];
-const DataGridTraining = () => {
+
+const Datagrid = () => {
+  // item stack
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
-    padding: theme.spacing(1),
+    padding: theme.spacing(0),
 
     color: theme.palette.text.secondary,
   }));
-  const location = useLocation();
-
   //data
 
   const [tableData, setTableData] = useState([]);
 
   // fetch the data :
-  const idHistory = location.state.idHistory;
 
   useEffect(() => {
     axios
-      .get(
-        "http://localhost:8000/historique/QuantityResultGroupedByNumEnrAndId",
-        {
-          params: {
-            idEntrainement: idHistory,
-          },
-        }
-      )
+      .get("http://localhost:8000/historique/HistoryOfTraining")
       .then((response) => {
         setTableData(response.data);
       });
@@ -54,11 +90,54 @@ const DataGridTraining = () => {
   const HistoryRow = tableData.map((row) => {
     return {
       id: row?.id,
-      Médicament: row?.num_enr,
-      Nombre_total: row?.count_medicament,
-      Nombre_suspécieux: row?.count_medicament_suspected,
+      type: row?.type,
+      date: row?.date,
+      status:
+        (row?.status == 0 && "Processing") ||
+        (row?.status == 1 && "Success") ||
+        (row?.status == -1 && "Failed"),
     };
   });
+
+  //Nabigation
+  const navigate = useNavigate();
+
+  // snackBar
+  const [open, setOpen] = useState(false);
+  const [alertOption, setAlertOption] = useState({});
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const navigateToDetails = (row) => {
+    // 👇️ navigate to /contacts in the case  : training is done
+    if (row.status === "Success") {
+      navigate("/DetailOfTraining", { state: { idHistory: row.id } });
+      // navigate(`/anotherRoute/${row.id}`);
+    }
+    if (row.status === "Processing") {
+      setAlertOption({
+        msg: "this training is not completed yet",
+        severity: "warning",
+      });
+      setOpen(true);
+    }
+    if (row.status === "Failed") {
+      console.log(" the failed taining has no details");
+      setAlertOption({
+        msg: "the failed taining has no details",
+        severity: "error",
+      });
+      setOpen(true);
+    }
+  };
+
+  const [pageSize, setPageSize] = useState(20);
 
   return (
     <Stack
@@ -67,28 +146,69 @@ const DataGridTraining = () => {
       spacing={0}
       sx={{ height: "100%", width: "100%" }}
     >
-      <ItemStack elevation={0}>
+      <ItemStack elevation={0} sx={{ alignItems: "left" }}>
         <Typography
           color="black"
-          sx={{ fontWeight: "bold", marginBottom: "2%", marginTop: "2%" }}
+          sx={{ fontWeight: "bold", marginBottom: "2%", marginTop: "0%" }}
           variant="h6"
           gutterBottom
         >
-          Result of training number {idHistory}
+          Result of training number
         </Typography>
         <Divider />
       </ItemStack>
-      <ItemStack elevation={0} sx={{ textAlign: "center", height: "180%" }}>
+      <ItemStack
+        elevation={0}
+        sx={{
+          height: "100%",
+          width: "100%",
+          "& .super-app.Failed": {
+            backgroundColor: "#d47483",
+
+            fontWeight: "600",
+          },
+          "& .super-app.Success": {
+            backgroundColor: "rgba(157, 255, 118, 0.49)",
+
+            fontWeight: "600",
+          },
+          "& .super-app.Processing": {
+            backgroundColor: "#FFE5B4",
+
+            fontWeight: "600",
+          },
+          "& .super-app-theme--header": {
+            backgroundColor: " #e7eaf6",
+
+            color: "black",
+          },
+        }}
+      >
+        <Snackbar
+          open={open}
+          autoHideDuration={3000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        >
+          <Alert onClose={handleClose} severity={alertOption.severity}>
+            <strong>{alertOption.msg}</strong>
+          </Alert>
+        </Snackbar>
         <DataGrid
           sx={{ border: "none" }}
-          autoHeight
           rows={HistoryRow}
           columns={columns}
-          pageSize={12}
+          pagination={true}
+          pageSize={pageSize}
+          components={{ Toolbar: GridToolbar }}
+          loading={!HistoryRow.length}
+          initialState={{
+            sorting: { sortModel: [{ field: "id", sort: "desc" }] },
+          }}
+          onRowClick={(e) => navigateToDetails(e.row)}
         />
       </ItemStack>
     </Stack>
   );
 };
-
-export default DataGridTraining;
+export default Datagrid;

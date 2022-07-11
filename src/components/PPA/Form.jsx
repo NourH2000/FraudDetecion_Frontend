@@ -3,16 +3,24 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import itLocale from "date-fns/locale/it";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import moment from "moment";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography, Paper, Divider } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SendIcon from "@mui/icons-material/Send";
-import { postFetcher } from "../../helpers/index";
 import axios from "axios";
+import { styled, createStyles } from "@mui/material/styles";
+
 const Form = () => {
+  // item stack
+  const ItemStack = styled(Paper)(({ theme }) => ({
+    backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+    ...theme.typography.body2,
+    padding: theme.spacing(0),
+
+    color: theme.palette.text.secondary,
+  }));
   //initial values
   const today = new Date();
   const [valueOne, setValueOne] = useState(moment(today).format("YYYY-MM-DD"));
@@ -68,20 +76,32 @@ const Form = () => {
   };
 
   return (
-    <Grid
-      container
-      direction="row"
-      justifyContent="flex-start"
-      spacing={3}
-      pr={1}
-      pl={1}
+    <Stack
+      direction="column"
+      alignItems="stretch"
+      spacing={0}
+      sx={{ height: "100%", width: "100%" }}
     >
-      <Grid item>
-        <Typography variant="h6" sx={{ color: "black " }}>
-          New training
+      <ItemStack elevation={0} sx={{ textAlign: "left" }}>
+        <Typography
+          color="black"
+          sx={{ fontWeight: "bold", marginBottom: "5%", marginTop: "5%" }}
+          variant="h6"
+          gutterBottom
+        >
+          Result of training number
         </Typography>
-      </Grid>
-      <Grid item xs={12}>
+        <Divider />
+      </ItemStack>
+      <ItemStack
+        elevation={0}
+        sx={{
+          height: "100%",
+          width: "100%",
+          textAlign: "center",
+          marginTop: "10%",
+        }}
+      >
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <Stack spacing={2}>
             <DesktopDatePicker
@@ -121,8 +141,15 @@ const Form = () => {
             />
           </Stack>
         </LocalizationProvider>
-      </Grid>
-      <Grid item xs={12}>
+      </ItemStack>
+      <ItemStack
+        elevation={0}
+        sx={{
+          height: "100%",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
         <Stack direction="row" justifyContent="space-between">
           <Button
             variant="text"
@@ -135,8 +162,8 @@ const Form = () => {
             <ClearAllIcon fontSize="inherit" />
           </IconButton>
         </Stack>
-      </Grid>
-    </Grid>
+      </ItemStack>
+    </Stack>
   );
 };
 

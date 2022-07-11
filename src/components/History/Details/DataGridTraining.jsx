@@ -15,6 +15,7 @@ const columns = [
     width: 300,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
+    align: "center",
   },
   {
     field: "Médicament",
@@ -22,6 +23,7 @@ const columns = [
     width: 150,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
+    align: "center",
   },
   {
     field: "Nombre_total",
@@ -29,6 +31,7 @@ const columns = [
     width: 150,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
+    align: "center",
   },
   {
     field: "Nombre_suspécieux",
@@ -36,6 +39,7 @@ const columns = [
     width: 300,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
+    align: "center",
   },
 ];
 const DataGridTraining = () => {

@@ -10,15 +10,15 @@ import DetailOfTraining from "./components/History/Details/DetailOfTraining";
 import DonutChart from "./components/History/Details/DonutChart";
 export const routes = [
   { path: "/data-visualizer", component: Table },
-  { path: "/OverView", component: Overview },
-  { path: "/Cards", component: Cards },
-  { path: "/Barchart", component: Barchart },
-  { path: "/Historique", component: Historique },
-  { path: "/Form", component: Form },
-  { path: "/Datagrid", component: Datagrid },
-  { path: "/DataGridTraining", component: DataGridTraining },
-  { path: "/DetailOfTraining", component: DetailOfTraining },
-  { path: "/DonutChart", component: DonutChart },
+  { path: "/overView", component: Overview },
+  { path: "/cards", component: Cards },
+  { path: "/barchart", component: Barchart },
+  { path: "/historique", component: Historique },
+  { path: "/form", component: Form },
+  { path: "/datagrid", component: Datagrid },
+  { path: "/dataGridTraining", component: DataGridTraining },
+  { path: "/detailOfTraining", component: DetailOfTraining },
+  { path: "/donutChart", component: DonutChart },
 
   //add your routes here
 ];

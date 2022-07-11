@@ -38,7 +38,7 @@ const Overview = () => {
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: "center",
+
     color: theme.palette.text.secondary,
     boxShadow: "none",
   }));
@@ -47,7 +47,7 @@ const Overview = () => {
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
     padding: theme.spacing(1),
-    textAlign: "center",
+
     color: theme.palette.text.secondary,
   }));
 
@@ -60,39 +60,37 @@ const Overview = () => {
       }));*/
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Typography variant="h6">Overview</Typography>
-      <Stack spacing={1}>
-        <ItemStack elevation={0}>
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
-              <ItemGrid>
-                <Cards />
-              </ItemGrid>
-            </Grid>
-            <Grid item xs={4}>
-              <ItemGrid>
-                <Cards />
-              </ItemGrid>
-            </Grid>
-            <Grid item xs={4}>
-              <ItemGrid>
-                <Cards />
-              </ItemGrid>
-            </Grid>
+    <Stack spacing={1} sx={{ width: "100%", height: "100%" }}>
+      <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
+        <Grid
+          container
+          xs={12}
+          gap={0}
+          spacing={3}
+          justifyContent="space-between"
+        >
+          <Grid item xs={4}>
+            <Cards />
           </Grid>
-        </ItemStack>
-        <ItemStack>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <ItemGrid elevation={3}>
-                <Barchart />
-              </ItemGrid>
-            </Grid>
+          <Grid item xs={4}>
+            <Cards />
           </Grid>
-        </ItemStack>
-      </Stack>
-    </Box>
+          <Grid item xs={4}>
+            <Cards />
+          </Grid>
+        </Grid>
+      </ItemStack>
+
+      <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <ItemGrid elevation={3}>
+              <Barchart />
+            </ItemGrid>
+          </Grid>
+        </Grid>
+      </ItemStack>
+    </Stack>
   );
 };
 
