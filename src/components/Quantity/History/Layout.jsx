@@ -1,6 +1,6 @@
 import React from "react";
 import { styled } from "@mui/material/styles";
-import Datagrid from "../History/Datagrid";
+import Datagrid from "./Datagrid";
 import {
   Box,
   Button,
@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Form from "./Form";
 
-const Historique = () => {
+const HistoryLayout = () => {
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -66,4 +66,4 @@ const Historique = () => {
   );
 };
 
-export default Historique;
+export default HistoryLayout;

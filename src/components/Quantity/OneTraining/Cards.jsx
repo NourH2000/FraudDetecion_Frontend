@@ -56,11 +56,14 @@ const Cards = ({ type }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/DetailsOfTraining/CountMedicamentSuspected", {
-        params: {
-          idEntrainement: idHistory,
-        },
-      })
+      .get(
+        "http://localhost:8000/DetailsOfTrainingQ/CountMedicamentSuspected",
+        {
+          params: {
+            idEntrainement: idHistory,
+          },
+        }
+      )
       .then((response) => {
         // get the number of drugs  suspected
         setMedicament(response.data.length);

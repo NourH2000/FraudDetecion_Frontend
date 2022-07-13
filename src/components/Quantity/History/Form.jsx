@@ -61,7 +61,7 @@ const Form = () => {
       setValueOne(response.data.date_paiement_min);
     });
   }, []);
-
+  console.log(minDate);
   useEffect(() => {
     axios.get("http://localhost:8000/models/getMaxdate").then((response) => {
       setMaxDate(response.data.date_paiement_max);

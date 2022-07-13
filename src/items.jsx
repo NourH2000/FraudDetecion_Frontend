@@ -29,13 +29,13 @@ export const items = [
   { icon: "", patéh: "", type: "", label: "History" },
   {
     icon: <ArchiveIcon />,
-    path: "/historique",
+    path: "/history/quantity",
     type: "item",
     label: "PPA price History",
   },
   {
     icon: <ArchiveIcon />,
-    path: "/historique",
+    path: "/history/quantity",
     type: "item",
     label: "Medications Quantity History",
   },

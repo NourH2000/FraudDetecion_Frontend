@@ -1,48 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { color } from "@mui/system";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Typography, Paper, Stack, Divider } from "@mui/material";
-import Cards from "./CardsDetails";
-import { makeStyles } from "@mui/styles";
 import { styled, createStyles } from "@mui/material/styles";
+
 // 1/ columns
 const columns = [
   {
     field: "id",
     headerName: "Id",
-    width: 300,
+    width: 100,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
   },
   {
-    field: "Médicament",
-    headerName: "Médicament",
+    field: "prescription",
+    headerName: "prescription",
+    width: 250,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "nassuré",
+    headerName: "Insured number",
     width: 150,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
   },
   {
-    field: "Nombre_total",
-    headerName: "total",
+    field: "quantityPrescripted",
+    headerName: " Prescripted Quantity",
     width: 150,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
   },
   {
-    field: "Nombre_suspécieux",
-    headerName: "cas suspect",
-    width: 300,
+    field: "quantityPridected",
+    headerName: "predicted Quantity ",
+    width: 150,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "quantityRejected",
+    headerName: " Rejected Quantity ",
+    width: 150,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
   },
 ];
-const DataGridTraining = () => {
+
+const OneMedicationdataGrid = () => {
+  // item stack
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -50,39 +66,45 @@ const DataGridTraining = () => {
 
     color: theme.palette.text.secondary,
   }));
+
   const location = useLocation();
-
   //data
-
   const [tableData, setTableData] = useState([]);
-
   // fetch the data :
   const idHistory = location.state.idHistory;
+  const medicament = location.state.medicament;
 
   useEffect(() => {
     axios
-      .get(
-        "http://localhost:8000/historique/QuantityResultGroupedByNumEnrAndId",
-        {
-          params: {
-            idEntrainement: idHistory,
-          },
-        }
-      )
+      .get("http://localhost:8000/DetailsOfMedicationQ/OneMedication", {
+        params: {
+          idEntrainement: idHistory,
+          NumEnR: medicament,
+        },
+      })
       .then((response) => {
         setTableData(response.data);
       });
   }, []);
 
+  // auto increment ID
+
+  let i = 0;
+  const inc = () => {
+    i = i + 1;
+    return i;
+  };
+
   const HistoryRow = tableData.map((row) => {
     return {
-      id: row?.id,
-      Médicament: row?.num_enr,
-      Nombre_total: row?.count_medicament,
-      Nombre_suspécieux: row?.count_medicament_suspected,
+      id: inc(i),
+      prescription: row?.fk,
+      nassuré: row?.no_assure,
+      quantityPrescripted: row?.quantite_med,
+      quantityPridected: row?.quantite_predicted,
+      quantityRejected: row?.qte_rejet_predicted,
     };
   });
-
   return (
     <Stack
       direction="column"
@@ -97,7 +119,7 @@ const DataGridTraining = () => {
           variant="h6"
           gutterBottom
         >
-          Result of training number {idHistory}
+          Training Number : {idHistory} with medication number : {medicament}
         </Typography>
         <Divider />
       </ItemStack>
@@ -125,4 +147,4 @@ const DataGridTraining = () => {
   );
 };
 
-export default DataGridTraining;
+export default OneMedicationdataGrid;

@@ -48,32 +48,33 @@ const DonutChart = () => {
     let other = 0;
 
     axios
-      .get("http://localhost:8000/DetailsOfTraining/CountMedicamentSuspected", {
-        params: {
-          idEntrainement: idHistory,
-        },
-      })
+      .get(
+        "http://localhost:8000/DetailsOfTrainingQ/CountMedicamentSuspected",
+        {
+          params: {
+            idEntrainement: idHistory,
+          },
+        }
+      )
       .then((response) => {
-        // order the data from the most suspected to the less
         const medication_rate = response.data;
-        const MostSuspectedToLess = [...medication_rate].sort(
-          (a, b) => b.count - a.count
-        );
-
-        // map the result ( get the three most suspected )
-
-        for (let i = 0; i < 3; i++) {
-          medicationName.push("Med: " + MostSuspectedToLess[i].num_enr),
-            medicationCount.push(parseInt(MostSuspectedToLess[i].count));
+        // si les resultas sont > 3 : on prends les 3 premiers
+        if (medication_rate.length > 3) {
+          // calculer Others
+          for (let i = 3; i < medication_rate.length; i++) {
+            other = other + parseInt(medication_rate[i].count);
+          }
+          for (let i = 0; i < 3; i++) {
+            medicationName.push("Med: " + medication_rate[i].num_enr),
+              medicationCount.push(parseInt(medication_rate[i].count));
+          }
+          medicationName.push("Others");
+          medicationCount.push(parseInt(other));
+        } else {
+          // si les resultas sont < 3 : on prends le length
+          console.log(medication_rate.length);
+          for (let i = 0; i < medication_rate.length; i++) {}
         }
-
-        // sum the rest of the values
-        for (let i = 3; i < MostSuspectedToLess.length; i++) {
-          other = other + parseInt(MostSuspectedToLess[i].count);
-        }
-
-        medicationName.push("Others");
-        medicationCount.push(parseInt(other));
 
         // set the series and labels state
         setMedication(medicationName);

@@ -48,7 +48,6 @@ const columns = [
   {
     field: "status",
     headerName: "Status",
-    align: "center",
 
     width: 320,
     cellClassName: (params) => {
@@ -64,7 +63,7 @@ const columns = [
   },
 ];
 
-const Datagrid = () => {
+const HistoryDatagrid = () => {
   // item stack
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -81,7 +80,7 @@ const Datagrid = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/historique/HistoryOfTraining")
+      .get("http://localhost:8000/historiqueQ/ByTraining")
       .then((response) => {
         setTableData(response.data);
       });
@@ -99,7 +98,7 @@ const Datagrid = () => {
     };
   });
 
-  //Nabigation
+  //Navigation
   const navigate = useNavigate();
 
   // snackBar
@@ -117,7 +116,9 @@ const Datagrid = () => {
   const navigateToDetails = (row) => {
     // 👇️ navigate to /contacts in the case  : training is done
     if (row.status === "Success") {
-      navigate("/DetailOfTraining", { state: { idHistory: row.id } });
+      navigate("/history/quantity/oneTraining", {
+        state: { idHistory: row.id },
+      });
       // navigate(`/anotherRoute/${row.id}`);
     }
     if (row.status === "Processing") {
@@ -146,7 +147,7 @@ const Datagrid = () => {
       spacing={0}
       sx={{ height: "100%", width: "100%" }}
     >
-      <ItemStack elevation={0} sx={{ alignItems: "left" }}>
+      <ItemStack elevation={0} sx={{ textAlign: "left" }}>
         <Typography
           color="black"
           sx={{ fontWeight: "bold", marginBottom: "2%", marginTop: "0%" }}
@@ -162,18 +163,19 @@ const Datagrid = () => {
         sx={{
           height: "100%",
           width: "100%",
+          marginTop: "2%",
           "& .super-app.Failed": {
-            backgroundColor: "#d47483",
+            color: "#c71d10",
 
             fontWeight: "600",
           },
           "& .super-app.Success": {
-            backgroundColor: "rgba(157, 255, 118, 0.49)",
+            color: "#12782d",
 
             fontWeight: "600",
           },
           "& .super-app.Processing": {
-            backgroundColor: "#FFE5B4",
+            color: "#ffcd55",
 
             fontWeight: "600",
           },
@@ -184,16 +186,6 @@ const Datagrid = () => {
           },
         }}
       >
-        <Snackbar
-          open={open}
-          autoHideDuration={3000}
-          onClose={handleClose}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        >
-          <Alert onClose={handleClose} severity={alertOption.severity}>
-            <strong>{alertOption.msg}</strong>
-          </Alert>
-        </Snackbar>
         <DataGrid
           sx={{ border: "none" }}
           rows={HistoryRow}
@@ -208,7 +200,17 @@ const Datagrid = () => {
           onRowClick={(e) => navigateToDetails(e.row)}
         />
       </ItemStack>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity={alertOption.severity}>
+          <strong>{alertOption.msg}</strong>
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 };
-export default Datagrid;
+export default HistoryDatagrid;

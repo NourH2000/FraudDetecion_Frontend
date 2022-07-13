@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import Avatar from "@mui/material/Avatar";
-import StorageRoundedIcon from "@mui/icons-material/StorageRounded";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import Cards from "./CardsDetails";
+import Cards from "../OneTraining/Cards";
 import { useLocation } from "react-router-dom";
-import DonutChart from "./DonutChart";
+import DonutChart from "../OneTraining/DonutChart";
 
 import {
   Box,
@@ -18,9 +15,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import DataGridTraining from "./DataGridTraining";
+import DataGridTraining from "../OneTraining/Datagrid";
 
-const DetailOfTraining = () => {
+const OneMedicationLayout = () => {
   // recupérer l'id de historique
   const location = useLocation();
   const idHistory = location.state.idHistory;
@@ -69,7 +66,6 @@ const DetailOfTraining = () => {
                   </Grid>
                 </ItemStack>
                 <ItemStack>
-                  {" "}
                   <DataGridTraining />
                 </ItemStack>
               </Stack>
@@ -103,4 +99,4 @@ const DetailOfTraining = () => {
   );
 };
 
-export default DetailOfTraining;
+export default OneMedicationLayout;

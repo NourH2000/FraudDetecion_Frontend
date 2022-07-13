@@ -1,24 +1,16 @@
-import Cards from "./components/History/Details/CardsDetails";
-import Barchart from "./components/Overview/Barchart";
 import Overview from "./components/Overview/Overview";
-import Table from "./components/Table";
-import Historique from "./components/PPA/Historique";
-import Form from "./components/PPA/Form";
-import Datagrid from "./components/History/Datagrid";
-import DataGridTraining from "./components/History/Details/DataGridTraining";
-import DetailOfTraining from "./components/History/Details/DetailOfTraining";
-import DonutChart from "./components/History/Details/DonutChart";
+import HistoryLayout from "./components/Quantity/History/Layout";
+import OneMedicationLayout from "./components/Quantity/OneMedication/Layout";
+import OneTrainingLayout from "./components/Quantity/OneTraining/Layout";
+
 export const routes = [
-  { path: "/data-visualizer", component: Table },
-  { path: "/overView", component: Overview },
-  { path: "/cards", component: Cards },
-  { path: "/barchart", component: Barchart },
-  { path: "/historique", component: Historique },
-  { path: "/form", component: Form },
-  { path: "/datagrid", component: Datagrid },
-  { path: "/dataGridTraining", component: DataGridTraining },
-  { path: "/detailOfTraining", component: DetailOfTraining },
-  { path: "/donutChart", component: DonutChart },
+  { path: "/overview", component: Overview },
+  { path: "/history/quantity", component: HistoryLayout },
+  { path: "/history/quantity/oneTraining", component: OneTrainingLayout },
+  {
+    path: "/history/quantity/oneTraining/oneMedication",
+    component: OneMedicationLayout,
+  },
 
   //add your routes here
 ];
