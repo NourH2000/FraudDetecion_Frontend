@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Typography, Paper, Stack, Divider } from "@mui/material";
-import { styled, createStyles } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 
 // 1/ columns
 const columns = [
@@ -50,7 +50,39 @@ const columns = [
   {
     field: "quantityRejected",
     headerName: " Rejected Quantity ",
-    width: 150,
+    width: 170,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "age",
+    headerName: " Age",
+    width: 100,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "affections",
+    headerName: "Affection",
+    width: 200,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "pharmacie",
+    headerName: "Pharmacy",
+    width: 200,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "gender",
+    headerName: "Gender",
+    width: 200,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
@@ -103,8 +135,15 @@ const OneMedicationdataGrid = () => {
       quantityPrescripted: row?.quantite_med,
       quantityPridected: row?.quantite_predicted,
       quantityRejected: row?.qte_rejet_predicted,
+      age: row?.age,
+      affections: row?.affection,
+      pharmacie: row?.codeps,
+      gender: row?.gender,
     };
   });
+
+  const [pageSize, setPageSize] = useState(30);
+
   return (
     <Stack
       direction="column"
@@ -115,19 +154,22 @@ const OneMedicationdataGrid = () => {
       <ItemStack elevation={0}>
         <Typography
           color="black"
-          sx={{ fontWeight: "bold", marginBottom: "2%", marginTop: "2%" }}
+          sx={{ fontWeight: "bold" }}
           variant="h6"
           gutterBottom
         >
-          Training Number : {idHistory} with medication number : {medicament}
+          Training Number : {idHistory} , Medication number : {medicament}
         </Typography>
         <Divider />
       </ItemStack>
       <ItemStack
         elevation={0}
         sx={{
+          height: "100%",
+          width: "100%",
+          marginTop: "2%",
           textAlign: "center",
-          height: "180%",
+
           "& .super-app-theme--header": {
             backgroundColor: " #e7eaf6",
 
@@ -137,10 +179,17 @@ const OneMedicationdataGrid = () => {
       >
         <DataGrid
           sx={{ border: "none" }}
-          autoHeight
           rows={HistoryRow}
           columns={columns}
-          pageSize={12}
+          pagination={true}
+          pageSize={pageSize}
+          components={{ Toolbar: GridToolbar }}
+          loading={!HistoryRow.length}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "quantityRejected", sort: "desc" }],
+            },
+          }}
         />
       </ItemStack>
     </Stack>

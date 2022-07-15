@@ -5,7 +5,9 @@ import StorageRoundedIcon from "@mui/icons-material/StorageRounded";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import Cards from "./Cards";
 import { useLocation } from "react-router-dom";
-import OneTrainingdataGrid from "../OneTraining/Datagrid";
+import OneTrainingdataGrid from "./Datagrid";
+import DonutChart from "./DonutChart";
+import OneTrainingAssureDatagrid from "./AssureDatagrid";
 import {
   Box,
   Button,
@@ -31,11 +33,10 @@ const OneTrainingLayout = () => {
 
     color: theme.palette.text.secondary,
   }));
-
-  /*const CountMedicament = "Medicament";
+  const CountMedicament = "Medicament";
   const CasPerMedicament = "Cas";
   const Assuré = "Assuré";
-*/
+
   const ItemGrid = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -46,53 +47,77 @@ const OneTrainingLayout = () => {
 
   return (
     <>
-      <Stack spacing={1} sx={{ width: "100%" }}>
+      <Stack spacing={2} sx={{ width: "100%" }}>
         <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
-          <Grid container xs={12} gap={0} justifyContent="space-between">
-            <Grid item xs={7.5}>
-              <Stack spacing={1}>
+          <Grid
+            container
+            md={12}
+            sm={12}
+            xs={12}
+            justifyContent="space-between"
+          >
+            <Grid item xs={12} md={7.5} sm={12} padding={0}>
+              <Stack spacing={4}>
                 <ItemStack
                   sx={{
                     boxShadow: "none",
                     textAlign: "center",
                     backgroundColor: "transparent",
+                    padding: "0px",
                   }}
                 >
-                  <Grid container spacing={3}>
-                    <Grid item xs={6}>
-                      Card 01
+                  <Grid
+                    container
+                    justifyContent="space-between"
+                    alignItems="center"
+                    md={12}
+                    sm={12}
+                    xs={12}
+                  >
+                    <Grid item md={5.9} sm={12} xs={12}>
+                      <Cards type={CountMedicament} />
                     </Grid>
-                    <Grid item xs={6}>
-                      Card 02
+                    <Grid item md={5.9} sm={12} xs={12}>
+                      <Cards type={CasPerMedicament} />
                     </Grid>
                   </Grid>
                 </ItemStack>
-                <ItemStack>
+                <ItemStack
+                  sx={{
+                    boxShadow: "none",
+                    padding: "0px",
+                    backgroundColor: "transparent",
+                  }}
+                >
                   {" "}
-                  <OneTrainingdataGrid />{" "}
+                  <Grid container spacing={2}>
+                    <Grid
+                      item
+                      spacing={0}
+                      xs={12}
+                      sx={{ backgroundColor: "transparent" }}
+                    >
+                      <ItemGrid xs={9} sx={{ padding: "3%" }}>
+                        <OneTrainingdataGrid />{" "}
+                      </ItemGrid>
+                    </Grid>
+                  </Grid>
                 </ItemStack>
               </Stack>
             </Grid>
-            <Grid item xs={4}>
-              <Stack spacing={1} sx={{ height: "100%" }}>
-                <ItemStack
-                  sx={{
-                    height: "80%",
-                    alignItems: "center",
-                  }}
-                >
-                  Chart 01
-                </ItemStack>
-              </Stack>
+            <Grid item xs={12} md={4} sm={12}>
+              <DonutChart />
             </Grid>
           </Grid>
         </ItemStack>
-        <ItemStack>
-          <Grid container spacing={1} xs={12} gap={1}>
-            <Grid item xs={3}>
-              item 01
+        <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
+          <Grid container xs={12} gap={0} justifyContent="space-between">
+            <Grid item xs={4} sx={{ backgroundColor: "transparent" }}>
+              <ItemGrid xs={9} sx={{ padding: "3%" }}>
+                <OneTrainingAssureDatagrid />
+              </ItemGrid>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={6}>
               item 02
             </Grid>
           </Grid>

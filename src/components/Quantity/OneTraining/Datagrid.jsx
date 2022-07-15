@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { color } from "@mui/system";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Typography, Paper, Stack, Divider } from "@mui/material";
 import { styled, createStyles } from "@mui/material/styles";
+
+/////////////////////////// data grid de 1 entrainement ////////////////////:
 // 1/ columns
 const columns = [
   {
     field: "id",
     headerName: "Id",
-    width: 300,
+    width: 147,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
   },
   {
     field: "Médicament",
-    headerName: "Médicament",
-    width: 150,
+    headerName: "Médication",
+    width: 270,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
@@ -26,15 +28,15 @@ const columns = [
   {
     field: "Nombre_total",
     headerName: "total",
-    width: 150,
+    width: 270,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
   },
   {
     field: "Nombre_suspécieux",
-    headerName: "cas suspect",
-    width: 300,
+    headerName: "suspected case",
+    width: 270,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
@@ -91,6 +93,8 @@ const OneTrainingDatagrid = () => {
       state: { idHistory: idHistory, medicament: row.Médicament },
     });
   };
+
+  const [pageSize, setPageSize] = useState(20);
   return (
     <Stack
       direction="column"
@@ -105,15 +109,18 @@ const OneTrainingDatagrid = () => {
           variant="h6"
           gutterBottom
         >
-          Result of training number {idHistory}
+          Training number : {idHistory}
         </Typography>
         <Divider />
       </ItemStack>
       <ItemStack
         elevation={0}
         sx={{
+          height: "100%",
+          width: "100%",
+          marginTop: "2%",
           textAlign: "center",
-          height: "180%",
+
           "& .super-app-theme--header": {
             backgroundColor: " #e7eaf6",
 
@@ -123,10 +130,17 @@ const OneTrainingDatagrid = () => {
       >
         <DataGrid
           sx={{ border: "none" }}
-          autoHeight
           rows={HistoryRow}
           columns={columns}
-          pageSize={12}
+          pagination={true}
+          pageSize={pageSize}
+          components={{ Toolbar: GridToolbar }}
+          loading={!HistoryRow.length}
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "Nombre_suspécieux", sort: "desc" }],
+            },
+          }}
           onRowClick={(e) => navigateToOneMedication(e.row)}
         />
       </ItemStack>

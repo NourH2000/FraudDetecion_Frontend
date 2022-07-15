@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import Cards from "../OneTraining/Cards";
+
 import { useLocation } from "react-router-dom";
-import DonutChart from "../OneTraining/DonutChart";
 
 import {
   Box,
@@ -15,7 +14,8 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import DataGridTraining from "../OneTraining/Datagrid";
+import OneMedicationdataGrid from "./Datagrid";
+import OneMedicationAssureDatagrid from "./AssureDatagrid";
 
 const OneMedicationLayout = () => {
   // recupérer l'id de historique
@@ -30,10 +30,6 @@ const OneMedicationLayout = () => {
     color: theme.palette.text.secondary,
   }));
 
-  const CountMedicament = "Medicament";
-  const CasPerMedicament = "Cas";
-  const Assuré = "Assuré";
-
   const ItemGrid = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -43,59 +39,60 @@ const OneMedicationLayout = () => {
   }));
 
   return (
-    <>
-      <Stack spacing={1} sx={{ width: "100%" }}>
-        <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
-          <Grid container xs={12} gap={0} justifyContent="space-between">
-            <Grid item xs={7.5}>
-              <Stack spacing={1}>
-                <ItemStack
-                  sx={{
-                    boxShadow: "none",
-                    textAlign: "center",
-                    backgroundColor: "transparent",
-                  }}
-                >
-                  <Grid container spacing={3}>
-                    <Grid item xs={6}>
-                      <Cards type={CountMedicament} />
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Cards type={CasPerMedicament} />
-                    </Grid>
-                  </Grid>
-                </ItemStack>
-                <ItemStack>
-                  <DataGridTraining />
-                </ItemStack>
-              </Stack>
-            </Grid>
-            <Grid item xs={4}>
-              <Stack spacing={1} sx={{ height: "100%" }}>
-                <ItemStack
-                  sx={{
-                    height: "80%",
-                    alignItems: "center",
-                  }}
-                >
-                  <DonutChart />
-                </ItemStack>
-              </Stack>
-            </Grid>
+    <Stack spacing={1} sx={{ width: "100%" }}>
+      <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
+        <Grid
+          container
+          md={12}
+          sm={12}
+          xs={12}
+          gap={0}
+          padding={0}
+          justifyContent="space-between"
+        >
+          <Grid item xs={4}>
+            Card 01
           </Grid>
-        </ItemStack>
-        <ItemStack>
-          <Grid container spacing={1} xs={12} gap={1}>
-            <Grid item xs={3}>
-              item 01
-            </Grid>
-            <Grid item xs={8}>
-              item 02
-            </Grid>
+          <Grid item xs={4}>
+            Card 02
           </Grid>
-        </ItemStack>
-      </Stack>
-    </>
+          <Grid item xs={4}>
+            Card 03
+          </Grid>
+        </Grid>
+      </ItemStack>
+
+      <ItemStack sx={{ backgroundColor: "green", boxShadow: "none" }}>
+        <Grid container spacing={2}>
+          <Grid
+            item
+            spacing={0}
+            xs={12}
+            sx={{ backgroundColor: "transparent" }}
+          >
+            <ItemGrid xs={9} sx={{ padding: "3%" }}>
+              <OneMedicationdataGrid xs={12} md={12} />
+            </ItemGrid>
+          </Grid>
+        </Grid>
+      </ItemStack>
+
+      <ItemStack elevation={0} sx={{ backgroundColor: "green" }}>
+        <Grid container xs={12} gap={0} justifyContent="space-between">
+          <Grid item xs={4} sx={{ backgroundColor: "transparent" }}>
+            <ItemGrid xs={9} sx={{ padding: "3%" }}>
+              <OneMedicationAssureDatagrid />
+            </ItemGrid>
+          </Grid>
+          <Grid item xs={4}>
+            Card 02
+          </Grid>
+          <Grid item xs={4}>
+            Card 03
+          </Grid>
+        </Grid>
+      </ItemStack>
+    </Stack>
   );
 };
 

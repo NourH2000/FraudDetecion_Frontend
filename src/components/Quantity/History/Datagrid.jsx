@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { color } from "@mui/system";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
+import moment from "moment";
+
 import {
   Alert,
   Grid,
@@ -22,17 +22,7 @@ const columns = [
   {
     field: "id",
     headerName: "Id",
-    width: 200,
-    headerClassName: "super-app-theme--header",
-    headerAlign: "center",
-    align: "center",
-  },
-  {
-    field: "type",
-    headerName: "Type",
-    width: 200,
-    sortable: false,
-    filterable: false,
+    width: 113,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
@@ -40,11 +30,28 @@ const columns = [
   {
     field: "date",
     headerName: "Date of Training",
-    width: 320,
+    width: 220,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
     align: "center",
   },
+  {
+    field: "date_de_debut",
+    headerName: "Date de debut",
+    width: 220,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+  {
+    field: "date_de_fin",
+    headerName: "Date de debut",
+    width: 220,
+    headerClassName: "super-app-theme--header",
+    headerAlign: "center",
+    align: "center",
+  },
+
   {
     field: "status",
     headerName: "Status",
@@ -90,7 +97,10 @@ const HistoryDatagrid = () => {
     return {
       id: row?.id,
       type: row?.type,
-      date: row?.date,
+      date: moment(row?.date).format("DD-MM-YYYY"),
+      date_de_debut: moment(row?.date_debut).format("DD-MM-YYYY"),
+      date_de_fin: moment(row?.date_fin).format("DD-MM-YYYY"),
+
       status:
         (row?.status == 0 && "Processing") ||
         (row?.status == 1 && "Success") ||
@@ -154,7 +164,7 @@ const HistoryDatagrid = () => {
           variant="h6"
           gutterBottom
         >
-          Result of training number
+          History of trainings
         </Typography>
         <Divider />
       </ItemStack>
