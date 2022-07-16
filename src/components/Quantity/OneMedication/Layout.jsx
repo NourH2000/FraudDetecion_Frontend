@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import OneMedicationdataGrid from "./Datagrid";
 import OneMedicationAssureDatagrid from "./AssureDatagrid";
+import OneMedicationArea from "./Area";
 
 const OneMedicationLayout = () => {
   // recupérer l'id de historique
@@ -62,7 +63,7 @@ const OneMedicationLayout = () => {
         </Grid>
       </ItemStack>
 
-      <ItemStack sx={{ backgroundColor: "green", boxShadow: "none" }}>
+      <ItemStack sx={{ backgroundColor: "transparent", boxShadow: "none" }}>
         <Grid container spacing={2}>
           <Grid
             item
@@ -77,18 +78,17 @@ const OneMedicationLayout = () => {
         </Grid>
       </ItemStack>
 
-      <ItemStack elevation={0} sx={{ backgroundColor: "green" }}>
+      <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
         <Grid container xs={12} gap={0} justifyContent="space-between">
           <Grid item xs={4} sx={{ backgroundColor: "transparent" }}>
             <ItemGrid xs={9} sx={{ padding: "3%" }}>
               <OneMedicationAssureDatagrid />
             </ItemGrid>
           </Grid>
-          <Grid item xs={4}>
-            Card 02
-          </Grid>
-          <Grid item xs={4}>
-            Card 03
+          <Grid item xs={7.5} sx={{ backgroundColor: "transparent" }}>
+            <ItemGrid sx={{ padding: "3%" }}>
+              <OneMedicationArea />
+            </ItemGrid>
           </Grid>
         </Grid>
       </ItemStack>

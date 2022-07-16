@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import OneTrainingdataGrid from "./Datagrid";
 import DonutChart from "./DonutChart";
 import OneTrainingAssureDatagrid from "./AssureDatagrid";
+import OneMedicationArea from "./Area";
 import {
   Box,
   Button,
@@ -105,20 +106,31 @@ const OneTrainingLayout = () => {
                 </ItemStack>
               </Stack>
             </Grid>
+
             <Grid item xs={12} md={4} sm={12}>
-              <DonutChart />
+              <ItemGrid sx={{ padding: "3%" }}>
+                <DonutChart />
+              </ItemGrid>
             </Grid>
           </Grid>
         </ItemStack>
         <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
-          <Grid container xs={12} gap={0} justifyContent="space-between">
+          <Grid
+            container
+            md={12}
+            sm={12}
+            xs={12}
+            justifyContent="space-between"
+          >
             <Grid item xs={4} sx={{ backgroundColor: "transparent" }}>
-              <ItemGrid xs={9} sx={{ padding: "3%" }}>
+              <ItemGrid sx={{ padding: "3%" }}>
                 <OneTrainingAssureDatagrid />
               </ItemGrid>
             </Grid>
-            <Grid item xs={6}>
-              item 02
+            <Grid item xs={7.5} sx={{ backgroundColor: "transparent" }}>
+              <ItemGrid sx={{ padding: "3%" }}>
+                <OneMedicationArea />
+              </ItemGrid>
             </Grid>
           </Grid>
         </ItemStack>
