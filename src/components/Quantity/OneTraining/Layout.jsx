@@ -9,6 +9,8 @@ import OneTrainingdataGrid from "./Datagrid";
 import DonutChart from "./DonutChart";
 import OneTrainingAssureDatagrid from "./AssureDatagrid";
 import OneMedicationArea from "./Area";
+import OneTrainingColumn from "./Column";
+import OneTrainingBarHorizontal from "./BarHorizontal";
 import {
   Box,
   Button,
@@ -111,6 +113,9 @@ const OneTrainingLayout = () => {
               <ItemGrid sx={{ padding: "3%" }}>
                 <DonutChart />
               </ItemGrid>
+              <ItemGrid sx={{ padding: "3%", marginTop: "10px" }}>
+                <OneTrainingBarHorizontal />
+              </ItemGrid>
             </Grid>
           </Grid>
         </ItemStack>
@@ -128,6 +133,21 @@ const OneTrainingLayout = () => {
               </ItemGrid>
             </Grid>
             <Grid item xs={7.5} sx={{ backgroundColor: "transparent" }}>
+              <ItemGrid sx={{ padding: "3%" }}>
+                <OneTrainingColumn />
+              </ItemGrid>
+            </Grid>
+          </Grid>
+        </ItemStack>
+        <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
+          <Grid
+            container
+            md={12}
+            sm={12}
+            xs={12}
+            justifyContent="space-between"
+          >
+            <Grid item xs={12} sx={{ backgroundColor: "transparent" }}>
               <ItemGrid sx={{ padding: "3%" }}>
                 <OneMedicationArea />
               </ItemGrid>

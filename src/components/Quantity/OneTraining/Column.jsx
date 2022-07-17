@@ -1,11 +1,12 @@
-import { Stack, Typography, Paper, Divider, Chip, Table } from "@mui/material";
+import { Stack, Typography, Paper, Divider, Chip } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import { styled } from "@mui/material/styles";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
-import _ from "lodash";
-const OneTrainingArea = () => {
+import { gridColumnsSelector } from "@mui/x-data-grid";
+
+const OneTrainingColumn = () => {
   // item stack
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -23,26 +24,27 @@ const OneTrainingArea = () => {
   const idHistory = location.state.idHistory;
 
   // initial values
-  const [Result, setResult] = useState([]);
+  const [center, setCenter] = useState([]);
+  const [count, setCount] = useState([]);
 
   // function to group the data by center and count em :
   const group = function (array) {
     var r = [],
       o = {};
     array.forEach(function (a) {
-      if (!o[a.num_enr]) {
-        o[a.num_enr] = { key: a.num_enr, value: 0 };
-        r.push(o[a.num_enr]);
+      if (!o[a.centre]) {
+        o[a.centre] = { key: a.centre, value: 0 };
+        r.push(o[a.centre]);
       }
-      o[a.num_enr].value++;
+      o[a.centre].value++;
     });
     return r;
   };
 
   useEffect(() => {
     // get the medication suspected with count
-    const resultArray = [];
-
+    const resultcenter = [];
+    const resultcount = [];
     axios
       .get("http://localhost:8000/DetailsOfTrainingQ//CountCenterMedication/", {
         params: {
@@ -52,47 +54,82 @@ const OneTrainingArea = () => {
       .then((response) => {
         // get the data result
         const data = response.data;
-        /**  the goal from this part is to make data on the shape =>  **/
-        /**  [ {center03 , array of values} , {center03 , array of values} , {center03 , array of values} ]**/
 
         // group the data :
+        const groupedData = group(data);
 
-        var groupedData = _.mapValues(_.groupBy(data, "centre"), (clist) =>
-          clist.map((data) => _.omit(data, "centre"))
-        );
-
-        // group the medication of each centre and count em
-        Object.entries(groupedData).map(([key, value]) => {
-          const groupedDataBy = group(value);
-
-          // now push the data into the result array as a object
-          resultArray.push({ name: key, data: groupedDataBy });
+        // push the data into a table of center and count
+        groupedData.map((data, key) => {
+          resultcenter.push(data.key);
+          resultcount.push(data.value);
         });
 
-        var countTable = [];
-        const final = [];
-
-        // foreach item ( data object (count) with name of center)
-        resultArray.map((table) => {
-          // foreach item ( for each value (count))
-          table.data.map((count) => {
-            // push the value into a table to save all the counts in a table  without num_enr
-            countTable.push(count.value);
-          });
-
-          // push the data as an object of ( center , array of values ( count))
-          final.push({ name: table.name, data: countTable });
-          // empty the table of count
-          countTable = [];
-        });
-        // set the dataState
-        setResult(final);
+        // push the result into the series of chart
+        setCenter(resultcenter);
+        setCount(resultcount);
       });
   }, []);
 
+  const option = {
+    series: [
+      {
+        data: count,
+      },
+    ],
+    options: {
+      chart: {
+        height: 350,
+        type: "bar",
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 10,
+          dataLabels: {
+            position: "top", // top, center, bottom
+          },
+        },
+      },
+      dataLabels: {
+        enabled: true,
+
+        offsetY: -20,
+        style: {
+          fontSize: "12px",
+          colors: ["#38598b"],
+        },
+      },
+
+      xaxis: {
+        categories: center,
+        position: "top",
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        crosshairs: {},
+        tooltip: {
+          enabled: true,
+        },
+      },
+      yaxis: {
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        labels: {
+          show: false,
+        },
+      },
+    },
+  };
   const handleClick = () => {
     console.info("You clicked the Chip.");
   };
+
   return (
     <Stack
       direction="column"
@@ -115,7 +152,7 @@ const OneTrainingArea = () => {
             variant="h6"
             gutterBottom
           >
-            The Result By center
+            The fraud rate in each center
           </Typography>
           <Chip
             label=" See more"
@@ -137,28 +174,15 @@ const OneTrainingArea = () => {
         }}
       >
         <Chart
-          type="area"
+          type="bar"
           width="100%"
           height="100%"
-          series={Result}
-          options={{
-            colors: ["#38598b", "#ffc55c", "#e95d35", "#f8da5b"],
-            stroke: { width: 3, curve: "smooth" },
-            ///fill:{opacity:1, type:'solid'},
-
-            yaxis: {
-              title: {
-                style: { fontSize: 20 },
-              },
-            },
-            dataLabels: {
-              enabled: false,
-            },
-          }}
-        ></Chart>
+          options={option.options}
+          series={option.series}
+        />
       </ItemStack>
     </Stack>
   );
 };
 
-export default OneTrainingArea;
+export default OneTrainingColumn;

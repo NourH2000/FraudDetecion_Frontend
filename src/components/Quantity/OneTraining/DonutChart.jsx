@@ -70,7 +70,7 @@ const DonutChart = () => {
         const SortedData = medication_rate.sort((a, b) => {
           return b.count - a.count;
         });
-        // si les resultas sont > 5 : on prends les 5 premiers
+        // si les resultas sont > medication number choosed : on prends the choosed number
         if (SortedData.length > medicationNumber) {
           // calculer Others
           for (let i = medicationNumber; i < SortedData.length; i++) {
@@ -192,7 +192,9 @@ const DonutChart = () => {
                 highlightDataSeries: true,
               },
             },
-
+            tooltip: {
+              enabled: true,
+            },
             responsive: [
               {
                 breakpoint: 480,
