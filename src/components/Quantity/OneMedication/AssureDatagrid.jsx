@@ -49,7 +49,7 @@ const OneMedicationAssureDatagrid = () => {
         setTableData(response.data);
       });
   }, []);
-  console.log(medicament);
+
   // auto increment ID
   let i = 0;
   const inc = () => {

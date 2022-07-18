@@ -4,8 +4,9 @@ import Chart from "react-apexcharts";
 import { styled } from "@mui/material/styles";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { gridColumnsSelector } from "@mui/x-data-grid";
 
-const OneTrainingBarHorizontal = () => {
+const OneMedicationColumn = () => {
   // item stack
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -21,35 +22,40 @@ const OneTrainingBarHorizontal = () => {
 
   // Id of training :
   const idHistory = location.state.idHistory;
+  const medicament = location.state.medicament;
 
   // initial values
-  const [codeps, setCodeps] = useState([]);
+  const [age, setAge] = useState([]);
   const [count, setCount] = useState([]);
 
-  // function to group the data by codeps and count em :
+  // function to group the data by age and count em :
   const group = function (array) {
     var r = [],
       o = {};
     array.forEach(function (a) {
-      if (!o[a.codeps]) {
-        o[a.codeps] = { key: a.codeps, value: 0 };
-        r.push(o[a.codeps]);
+      if (!o[a.age]) {
+        o[a.age] = { key: a.age, value: 0 };
+        r.push(o[a.age]);
       }
-      o[a.codeps].value++;
+      o[a.age].value++;
     });
     return r;
   };
 
   useEffect(() => {
     // get the medication suspected with count
-    const resultcodeps = [];
+    const resultage = [];
     const resultcount = [];
     axios
-      .get("http://localhost:8000/DetailsOfTrainingQ/CountCodepsMedication/", {
-        params: {
-          idEntrainement: idHistory,
-        },
-      })
+      .get(
+        "http://localhost:8000/DetailsOfMedicationQ/CountAgeOneMedication/",
+        {
+          params: {
+            idEntrainement: idHistory,
+            numEnr: medicament,
+          },
+        }
+      )
       .then((response) => {
         // get the data result
         const data = response.data;
@@ -57,29 +63,14 @@ const OneTrainingBarHorizontal = () => {
         // group the data :
         const groupedData = group(data);
 
-        // sorting data by count
-        const SortedData = groupedData.sort((a, b) => {
-          return b.value - a.value;
+        // push the data into a table of age and count
+        groupedData.map((data, key) => {
+          resultage.push(data.key);
+          resultcount.push(data.value);
         });
 
-        // push the data into a table of codeps and count
-
-        // push this data into the array of the BARS in the case of ::
-        if (SortedData.length >= 5) {
-          for (let i = 0; i < 5; i++) {
-            resultcodeps.push(SortedData[i].key);
-            resultcount.push(SortedData[i].value);
-          }
-        } else {
-          // if the data < 5 ==> get all the data
-          for (let i = 0; i < SortedData.length; i++) {
-            resultcodeps.push(SortedData[i].key);
-            resultcount.push(SortedData[i].value);
-          }
-        }
-
         // push the result into the series of chart
-        setCodeps(resultcodeps);
+        setAge(resultage);
         setCount(resultcount);
       });
   }, []);
@@ -92,20 +83,51 @@ const OneTrainingBarHorizontal = () => {
     ],
     options: {
       chart: {
-        type: "bar",
         height: 350,
+        type: "bar",
       },
       plotOptions: {
         bar: {
-          borderRadius: 4,
-          horizontal: true,
+          borderRadius: 10,
+          dataLabels: {
+            position: "top", // top, center, bottom
+          },
         },
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
+
+        offsetY: -20,
+        style: {
+          fontSize: "12px",
+          colors: ["#38598b"],
+        },
       },
+
       xaxis: {
-        categories: codeps,
+        categories: age,
+        position: "top",
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        crosshairs: {},
+        tooltip: {
+          enabled: true,
+        },
+      },
+      yaxis: {
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        labels: {
+          show: false,
+        },
       },
     },
   };
@@ -119,7 +141,7 @@ const OneTrainingBarHorizontal = () => {
       alignItems="stretch"
       spacing={0}
       sx={{
-        height: "345px",
+        height: "468px",
         width: "100%",
       }}
     >
@@ -135,7 +157,7 @@ const OneTrainingBarHorizontal = () => {
             variant="h6"
             gutterBottom
           >
-            the 5 pharmacy most suspicious
+            The fraud rate in categorie of age
           </Typography>
           <Chip
             label=" See more"
@@ -168,4 +190,4 @@ const OneTrainingBarHorizontal = () => {
   );
 };
 
-export default OneTrainingBarHorizontal;
+export default OneMedicationColumn;

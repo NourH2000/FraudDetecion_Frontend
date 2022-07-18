@@ -25,7 +25,7 @@ const OneTrainingArea = () => {
   // initial values
   const [Result, setResult] = useState([]);
 
-  // function to group the data by center and count em :
+  // function to group the data by num_enr and count em :
   const group = function (array) {
     var r = [],
       o = {};

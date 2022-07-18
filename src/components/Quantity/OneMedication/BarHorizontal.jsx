@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 
-const OneTrainingBarHorizontal = () => {
+const OneMedicationBarHorizontal = () => {
   // item stack
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -19,8 +19,9 @@ const OneTrainingBarHorizontal = () => {
 
   const location = useLocation();
 
-  // Id of training :
+  // Id of training and num_enr :
   const idHistory = location.state.idHistory;
+  const medicament = location.state.medicament;
 
   // initial values
   const [codeps, setCodeps] = useState([]);
@@ -44,12 +45,17 @@ const OneTrainingBarHorizontal = () => {
     // get the medication suspected with count
     const resultcodeps = [];
     const resultcount = [];
+
     axios
-      .get("http://localhost:8000/DetailsOfTrainingQ/CountCodepsMedication/", {
-        params: {
-          idEntrainement: idHistory,
-        },
-      })
+      .get(
+        "http://localhost:8000/DetailsOfMedicationQ/CountCodepsOneMedication/",
+        {
+          params: {
+            idEntrainement: idHistory,
+            numEnr: medicament,
+          },
+        }
+      )
       .then((response) => {
         // get the data result
         const data = response.data;
@@ -65,8 +71,8 @@ const OneTrainingBarHorizontal = () => {
         // push the data into a table of codeps and count
 
         // push this data into the array of the BARS in the case of ::
-        if (SortedData.length >= 5) {
-          for (let i = 0; i < 5; i++) {
+        if (SortedData.length >= 10) {
+          for (let i = 0; i < 10; i++) {
             resultcodeps.push(SortedData[i].key);
             resultcount.push(SortedData[i].value);
           }
@@ -119,7 +125,7 @@ const OneTrainingBarHorizontal = () => {
       alignItems="stretch"
       spacing={0}
       sx={{
-        height: "345px",
+        height: "468px",
         width: "100%",
       }}
     >
@@ -168,4 +174,4 @@ const OneTrainingBarHorizontal = () => {
   );
 };
 
-export default OneTrainingBarHorizontal;
+export default OneMedicationBarHorizontal;

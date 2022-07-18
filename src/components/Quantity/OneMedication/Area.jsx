@@ -19,7 +19,7 @@ const OneMedicationArea = () => {
 
   const location = useLocation();
 
-  // Id of training :
+  // Id of training and num_enr :
   const idHistory = location.state.idHistory;
   const medicament = location.state.medicament;
 

@@ -1,26 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardMedia from "@mui/material/CardMedia";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
+
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { styled, createStyles } from "@mui/material/styles";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+
+import { styled } from "@mui/material/styles";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { makeStyles } from "@mui/styles";
-import StorageRoundedIcon from "@mui/icons-material/StorageRounded";
-import { Divider, Grid, Stack, Paper } from "@mui/material";
-import { Box } from "@mui/system";
+import { Grid, Stack, Paper } from "@mui/material";
 import MedicationIcon from "@mui/icons-material/Medication";
 import BallotIcon from "@mui/icons-material/Ballot";
 

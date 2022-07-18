@@ -17,7 +17,10 @@ import {
 import OneMedicationdataGrid from "./Datagrid";
 import OneMedicationAssureDatagrid from "./AssureDatagrid";
 import OneMedicationArea from "./Area";
-
+import OneMedicationBarHorizontal from "./BarHorizontal";
+import OneMedicationGenderCards from "./Cards";
+import OneMedicationColumn from "./Column";
+import OneMedicationDoubleColumn from "./DoubleColumn";
 const OneMedicationLayout = () => {
   // recupérer l'id de historique
   const location = useLocation();
@@ -51,14 +54,29 @@ const OneMedicationLayout = () => {
           padding={0}
           justifyContent="space-between"
         >
-          <Grid item xs={4}>
-            Card 01
+          <Grid item xs={2}>
+            <Stack spacing={1} sx={{ width: "100%" }}>
+              <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
+                <OneMedicationGenderCards type={"T"} />
+              </ItemStack>
+              <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
+                <OneMedicationGenderCards type={"F"} />
+              </ItemStack>
+              <ItemStack elevation={0} sx={{ backgroundColor: "transparent" }}>
+                <OneMedicationGenderCards type={"M"} />
+              </ItemStack>
+            </Stack>
+          </Grid>
+
+          <Grid item xs={5}>
+            <ItemGrid xs={9} sx={{ padding: "3%" }}>
+              {/*<OneMedicationDoubleColumn />*/}
+            </ItemGrid>
           </Grid>
           <Grid item xs={4}>
-            Card 02
-          </Grid>
-          <Grid item xs={4}>
-            Card 03
+            <ItemGrid xs={9} sx={{ padding: "3%" }}>
+              <OneMedicationColumn />
+            </ItemGrid>
           </Grid>
         </Grid>
       </ItemStack>
@@ -87,7 +105,8 @@ const OneMedicationLayout = () => {
           </Grid>
           <Grid item xs={7.5} sx={{ backgroundColor: "transparent" }}>
             <ItemGrid sx={{ padding: "3%" }}>
-              <OneMedicationArea />
+              {/*<OneMedicationArea/>*/}
+              <OneMedicationBarHorizontal />
             </ItemGrid>
           </Grid>
         </Grid>
