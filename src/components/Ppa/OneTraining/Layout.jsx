@@ -1,32 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import Avatar from "@mui/material/Avatar";
-import StorageRoundedIcon from "@mui/icons-material/StorageRounded";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import Cards from "./Cards";
 import { useLocation } from "react-router-dom";
 import OneTrainingdataGrid from "./Datagrid";
 import DonutChart from "./DonutChart";
-import OneTrainingAssureDatagrid from "./AssureDatagrid";
-import OneMedicationArea from "./Area";
 import OneTrainingColumn from "./Column";
 import OneTrainingBarHorizontal from "./BarHorizontal";
+import { Grid, Paper, Stack } from "@mui/material";
 import OneTrainingLine from "./Line";
 
-import {
-  Box,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Grid,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
-import DataGridTraining from "./Datagrid";
-
-const OneTrainingLayoutQ = () => {
+const OneTrainingLayoutP = () => {
   // recupérer l'id de historique
   const location = useLocation();
   const idHistory = location.state.idHistory;
@@ -129,12 +112,7 @@ const OneTrainingLayoutQ = () => {
             xs={12}
             justifyContent="space-between"
           >
-            <Grid item xs={4} sx={{ backgroundColor: "transparent" }}>
-              <ItemGrid sx={{ padding: "3%" }}>
-                <OneTrainingAssureDatagrid />
-              </ItemGrid>
-            </Grid>
-            <Grid item xs={7.5} sx={{ backgroundColor: "transparent" }}>
+            <Grid item xs={12} sx={{ backgroundColor: "transparent" }}>
               <ItemGrid sx={{ padding: "3%" }}>
                 <OneTrainingColumn />
               </ItemGrid>
@@ -151,7 +129,6 @@ const OneTrainingLayoutQ = () => {
           >
             <Grid item xs={12} sx={{ backgroundColor: "transparent" }}>
               <ItemGrid sx={{ padding: "3%" }}>
-                {/*<OneMedicationArea />*/}
                 <OneTrainingLine />
               </ItemGrid>
             </Grid>
@@ -162,4 +139,4 @@ const OneTrainingLayoutQ = () => {
   );
 };
 
-export default OneTrainingLayoutQ;
+export default OneTrainingLayoutP;

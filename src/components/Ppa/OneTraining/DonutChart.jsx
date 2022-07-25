@@ -43,7 +43,7 @@ const DonutChart = () => {
   const [count, setCount] = useState([]);
 
   // the medication number :
-  const [medicationNumber, setMedicationNumber] = React.useState(5);
+  const [medicationNumber, setMedicationNumber] = useState(10);
 
   const handleChange = (event) => {
     setMedicationNumber(event.target.value);
@@ -56,7 +56,7 @@ const DonutChart = () => {
 
     axios
       .get(
-        "http://localhost:8000/DetailsOfTrainingQ/CountMedicamentSuspected",
+        "http://localhost:8000/DetailsOfTrainingP/CountMedicamentSuspected",
         {
           params: {
             idEntrainement: idHistory,
@@ -83,7 +83,7 @@ const DonutChart = () => {
               medicationCount.push(parseInt(SortedData[i].count));
           }
         } else {
-          // si les resultas sont < 3 : on prends le length
+          // si les resultas sont < medicationNumber choosed : on prends le length
 
           for (let i = 0; i < medication_rate.length; i++) {
             medicationName.push("Med: " + SortedData[i].num_enr),

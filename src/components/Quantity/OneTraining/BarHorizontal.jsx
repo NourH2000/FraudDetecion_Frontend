@@ -2,7 +2,7 @@ import { Stack, Typography, Paper, Divider, Chip } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import { styled } from "@mui/material/styles";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const OneTrainingBarHorizontal = () => {
@@ -109,8 +109,13 @@ const OneTrainingBarHorizontal = () => {
       },
     },
   };
-  const handleClick = () => {
-    console.info("You clicked the Chip.");
+  // go to the details of one medication
+  //Navigation
+  const navigate = useNavigate();
+  const navigateToOneTrainingSeeMore = (row) => {
+    navigate("/history/quantity/oneTraining/SeeMore", {
+      state: { idHistory: idHistory },
+    });
   };
 
   return (
@@ -141,7 +146,7 @@ const OneTrainingBarHorizontal = () => {
             label=" See more"
             sx={{ marginTop: "1%" }}
             variant="outlined"
-            onClick={handleClick}
+            onClick={navigateToOneTrainingSeeMore}
           />
         </Stack>
 

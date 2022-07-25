@@ -135,8 +135,12 @@ const OneMedicationAssureDatagrid = () => {
       </>
     );
   }
-  const handleClick = () => {
-    console.info("You clicked the Chip.");
+  //Navigation
+  const navigate = useNavigate();
+  const navigateToOneMedicationSeeMore = (row) => {
+    navigate("/history/quantity/oneMedication/SeeMore", {
+      state: { idHistory: idHistory, medicament: medicament },
+    });
   };
   return (
     <Stack
@@ -167,7 +171,7 @@ const OneMedicationAssureDatagrid = () => {
             label=" See more"
             variant="outlined"
             sx={{ marginTop: "2%" }}
-            onClick={handleClick}
+            onClick={navigateToOneMedicationSeeMore}
           />
         </Stack>
 

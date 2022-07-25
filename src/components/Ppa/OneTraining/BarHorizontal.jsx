@@ -5,7 +5,7 @@ import { styled } from "@mui/material/styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const OneMedicationBarHorizontal = () => {
+const OneTrainingBarHorizontal = () => {
   // item stack
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -19,9 +19,8 @@ const OneMedicationBarHorizontal = () => {
 
   const location = useLocation();
 
-  // Id of training and num_enr :
+  // Id of training :
   const idHistory = location.state.idHistory;
-  const medicament = location.state.medicament;
 
   // initial values
   const [codeps, setCodeps] = useState([]);
@@ -45,17 +44,12 @@ const OneMedicationBarHorizontal = () => {
     // get the medication suspected with count
     const resultcodeps = [];
     const resultcount = [];
-
     axios
-      .get(
-        "http://localhost:8000/DetailsOfMedicationQ/CountCodepsOneMedication/",
-        {
-          params: {
-            idEntrainement: idHistory,
-            numEnr: medicament,
-          },
-        }
-      )
+      .get("http://localhost:8000/DetailsOfTrainingP/CountCodepsMedication/", {
+        params: {
+          idEntrainement: idHistory,
+        },
+      })
       .then((response) => {
         // get the data result
         const data = response.data;
@@ -71,8 +65,8 @@ const OneMedicationBarHorizontal = () => {
         // push the data into a table of codeps and count
 
         // push this data into the array of the BARS in the case of ::
-        if (SortedData.length >= 10) {
-          for (let i = 0; i < 10; i++) {
+        if (SortedData.length >= 5) {
+          for (let i = 0; i < 5; i++) {
             resultcodeps.push(SortedData[i].key);
             resultcount.push(SortedData[i].value);
           }
@@ -117,9 +111,9 @@ const OneMedicationBarHorizontal = () => {
   };
   //Navigation
   const navigate = useNavigate();
-  const navigateToOneMedicationSeeMore = (row) => {
-    navigate("/history/quantity/oneMedication/SeeMore", {
-      state: { idHistory: idHistory, medicament: medicament },
+  const navigateToOneTrainingSeeMore = (row) => {
+    navigate("/history/ppa/oneTraining/SeeMore", {
+      state: { idHistory: idHistory },
     });
   };
 
@@ -129,7 +123,7 @@ const OneMedicationBarHorizontal = () => {
       alignItems="stretch"
       spacing={0}
       sx={{
-        height: "468px",
+        height: "345px",
         width: "100%",
       }}
     >
@@ -151,7 +145,7 @@ const OneMedicationBarHorizontal = () => {
             label=" See more"
             sx={{ marginTop: "1%" }}
             variant="outlined"
-            onClick={navigateToOneMedicationSeeMore}
+            onClick={navigateToOneTrainingSeeMore}
           />
         </Stack>
 
@@ -178,4 +172,4 @@ const OneMedicationBarHorizontal = () => {
   );
 };
 
-export default OneMedicationBarHorizontal;
+export default OneTrainingBarHorizontal;

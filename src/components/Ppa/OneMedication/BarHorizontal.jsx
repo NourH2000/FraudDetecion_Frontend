@@ -48,7 +48,7 @@ const OneMedicationBarHorizontal = () => {
 
     axios
       .get(
-        "http://localhost:8000/DetailsOfMedicationQ/CountCodepsOneMedication/",
+        "http://localhost:8000/DetailsOfMedicationP/CountCodepsOneMedication/",
         {
           params: {
             idEntrainement: idHistory,
@@ -118,7 +118,7 @@ const OneMedicationBarHorizontal = () => {
   //Navigation
   const navigate = useNavigate();
   const navigateToOneMedicationSeeMore = (row) => {
-    navigate("/history/quantity/oneMedication/SeeMore", {
+    navigate("/history/ppa/oneMedication/SeeMore", {
       state: { idHistory: idHistory, medicament: medicament },
     });
   };

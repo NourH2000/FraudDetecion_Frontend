@@ -29,7 +29,7 @@ export const items = [
   { icon: "", patéh: "", type: "", label: "History" },
   {
     icon: <ArchiveIcon />,
-    path: "/history/quantity",
+    path: "/history/ppa",
     type: "item",
     label: "PPA price History",
   },

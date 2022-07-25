@@ -135,9 +135,16 @@ const OneTrainingAssureDatagrid = () => {
       </>
     );
   }
-  const handleClick = () => {
-    console.info("You clicked the Chip.");
+
+  // go to the details of one medication
+  //Navigation
+  const navigate = useNavigate();
+  const navigateToOneTrainingSeeMore = (row) => {
+    navigate("/history/quantity/oneTraining/SeeMore", {
+      state: { idHistory: idHistory },
+    });
   };
+
   return (
     <Stack
       direction="column"
@@ -167,7 +174,7 @@ const OneTrainingAssureDatagrid = () => {
             label=" See more"
             variant="outlined"
             sx={{ marginTop: "2%" }}
-            onClick={handleClick}
+            onClick={navigateToOneTrainingSeeMore}
           />
         </Stack>
 

@@ -44,7 +44,7 @@ const OneTrainingArea = () => {
     const resultArray = [];
 
     axios
-      .get("http://localhost:8000/DetailsOfTrainingQ//CountCenterMedication/", {
+      .get("http://localhost:8000/DetailsOfTrainingQ/CountCenterMedication/", {
         params: {
           idEntrainement: idHistory,
         },

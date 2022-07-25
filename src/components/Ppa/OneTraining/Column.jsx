@@ -2,10 +2,11 @@ import { Stack, Typography, Paper, Divider, Chip } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import { styled } from "@mui/material/styles";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
+import { gridColumnsSelector } from "@mui/x-data-grid";
 
-const OneMedicationBarHorizontal = () => {
+const OneTrainingColumn = () => {
   // item stack
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -19,43 +20,37 @@ const OneMedicationBarHorizontal = () => {
 
   const location = useLocation();
 
-  // Id of training and num_enr :
+  // Id of training :
   const idHistory = location.state.idHistory;
-  const medicament = location.state.medicament;
 
   // initial values
-  const [codeps, setCodeps] = useState([]);
+  const [center, setCenter] = useState([]);
   const [count, setCount] = useState([]);
 
-  // function to group the data by codeps and count em :
+  // function to group the data by center and count em :
   const group = function (array) {
     var r = [],
       o = {};
     array.forEach(function (a) {
-      if (!o[a.codeps]) {
-        o[a.codeps] = { key: a.codeps, value: 0 };
-        r.push(o[a.codeps]);
+      if (!o[a.centre]) {
+        o[a.centre] = { key: a.centre, value: 0 };
+        r.push(o[a.centre]);
       }
-      o[a.codeps].value++;
+      o[a.centre].value++;
     });
     return r;
   };
 
   useEffect(() => {
     // get the medication suspected with count
-    const resultcodeps = [];
+    const resultcenter = [];
     const resultcount = [];
-
     axios
-      .get(
-        "http://localhost:8000/DetailsOfMedicationQ/CountCodepsOneMedication/",
-        {
-          params: {
-            idEntrainement: idHistory,
-            numEnr: medicament,
-          },
-        }
-      )
+      .get("http://localhost:8000/DetailsOfTrainingP/CountCenterMedication/", {
+        params: {
+          idEntrainement: idHistory,
+        },
+      })
       .then((response) => {
         // get the data result
         const data = response.data;
@@ -63,29 +58,14 @@ const OneMedicationBarHorizontal = () => {
         // group the data :
         const groupedData = group(data);
 
-        // sorting data by count
-        const SortedData = groupedData.sort((a, b) => {
-          return b.value - a.value;
+        // push the data into a table of center and count
+        groupedData.map((data, key) => {
+          resultcenter.push(data.key);
+          resultcount.push(data.value);
         });
 
-        // push the data into a table of codeps and count
-
-        // push this data into the array of the BARS in the case of ::
-        if (SortedData.length >= 10) {
-          for (let i = 0; i < 10; i++) {
-            resultcodeps.push(SortedData[i].key);
-            resultcount.push(SortedData[i].value);
-          }
-        } else {
-          // if the data < 5 ==> get all the data
-          for (let i = 0; i < SortedData.length; i++) {
-            resultcodeps.push(SortedData[i].key);
-            resultcount.push(SortedData[i].value);
-          }
-        }
-
         // push the result into the series of chart
-        setCodeps(resultcodeps);
+        setCenter(resultcenter);
         setCount(resultcount);
       });
   }, []);
@@ -98,29 +78,56 @@ const OneMedicationBarHorizontal = () => {
     ],
     options: {
       chart: {
-        type: "bar",
         height: 350,
+        type: "bar",
       },
       plotOptions: {
         bar: {
-          borderRadius: 4,
-          horizontal: true,
+          borderRadius: 10,
+          dataLabels: {
+            position: "top", // top, center, bottom
+          },
         },
       },
       dataLabels: {
-        enabled: false,
+        enabled: true,
+
+        offsetY: -20,
+        style: {
+          fontSize: "12px",
+          colors: ["#38598b"],
+        },
       },
+
       xaxis: {
-        categories: codeps,
+        categories: center,
+        position: "top",
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        crosshairs: {},
+        tooltip: {
+          enabled: true,
+        },
+      },
+      yaxis: {
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: false,
+        },
+        labels: {
+          show: false,
+        },
       },
     },
   };
-  //Navigation
-  const navigate = useNavigate();
-  const navigateToOneMedicationSeeMore = (row) => {
-    navigate("/history/quantity/oneMedication/SeeMore", {
-      state: { idHistory: idHistory, medicament: medicament },
-    });
+  const handleClick = () => {
+    console.info("You clicked the Chip.");
   };
 
   return (
@@ -145,13 +152,13 @@ const OneMedicationBarHorizontal = () => {
             variant="h6"
             gutterBottom
           >
-            the 5 pharmacy most suspicious
+            The fraud rate in each wilaya
           </Typography>
           <Chip
             label=" See more"
             sx={{ marginTop: "1%" }}
             variant="outlined"
-            onClick={navigateToOneMedicationSeeMore}
+            onClick={handleClick}
           />
         </Stack>
 
@@ -178,4 +185,4 @@ const OneMedicationBarHorizontal = () => {
   );
 };
 
-export default OneMedicationBarHorizontal;
+export default OneTrainingColumn;

@@ -7,6 +7,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import moment from "moment";
 import {
   Button,
+  Grid,
   Typography,
   Paper,
   Divider,
@@ -17,7 +18,7 @@ import IconButton from "@mui/material/IconButton";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import SendIcon from "@mui/icons-material/Send";
 import axios from "axios";
-import { styled } from "@mui/material/styles";
+import { styled, createStyles } from "@mui/material/styles";
 
 const Form = () => {
   // item stack
@@ -47,16 +48,7 @@ const Form = () => {
   // get data and call the model :
   const data = { date_debut: valueOne, date_fin: valueTwo };
   const callModel = async (data) => {
-    const res = await axios.post(
-      "http://localhost:8000/models/quantitymodel",
-      data
-    );
-  };
-  //const date_debut = "2022-01-02";
-  const date_fin = "2022-01-31";
-  // call model handler button
-  const callModelHandler = () => {
-    callModel(data);
+    const res = await axios.post("http://localhost:8000/models/ppamodel", data);
   };
 
   // test is this training exist or not ( if it exists => error (snackBar) , else => call the model )
@@ -71,7 +63,7 @@ const Form = () => {
         params: {
           date_debut: data.date_debut,
           date_fin: data.date_fin,
-          type: 1,
+          type: 2,
         },
       })
       .then((response) => {
@@ -89,7 +81,7 @@ const Form = () => {
       setValueOne(response.data.date_paiement_min);
     });
   }, []);
-
+  console.log(minDate);
   useEffect(() => {
     axios.get("http://localhost:8000/models/getMaxdate").then((response) => {
       setMaxDate(response.data.date_paiement_max);
@@ -127,9 +119,8 @@ const Form = () => {
           variant="h6"
           gutterBottom
         >
-          New training
+          Result of training number
         </Typography>
-
         <Divider />
       </ItemStack>
       <ItemStack

@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from "@mui/material/styles";
-import Datagrid from "./Datagrid";
+import Avatar from "@mui/material/Avatar";
+import StorageRoundedIcon from "@mui/icons-material/StorageRounded";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { useLocation } from "react-router-dom";
+import OneTrainingPharmacyDatagridSeeMore from "./DataGridPharmacy";
+import OneTrainingCenterDatagridSeeMore from "./DataGridCenter";
+
 import {
   Box,
   Button,
@@ -12,9 +18,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import Form from "./Form";
 
-const HistoryLayoutQ = () => {
+const OneTrainingLayoutPSeeMore = ({ DetailsTable }) => {
+  // recupérer l'id de historique
+  const location = useLocation();
+  const idHistory = location.state.idHistory;
+
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -35,15 +44,17 @@ const HistoryLayoutQ = () => {
   return (
     <Stack spacing={1} sx={{ width: "100%" }}>
       <ItemStack sx={{ backgroundColor: "transparent" }}>
-        <Grid container spacing={2}>
-          <Grid item spacing={0} xs={9}>
+        <Grid container spacing={10}>
+          <Grid item spacing={0} xs={6}>
             <ItemGrid xs={9} sx={{ padding: "3%", height: 800 }}>
-              <Datagrid xs={12} md={12} />
+              {" "}
+              <OneTrainingPharmacyDatagridSeeMore />{" "}
             </ItemGrid>
           </Grid>
-          <Grid item xs={3}>
-            <ItemGrid elevation={3}>
-              <Form />
+          <Grid item spacing={0} xs={6}>
+            <ItemGrid xs={9} sx={{ padding: "3%", height: 800 }}>
+              {" "}
+              <OneTrainingCenterDatagridSeeMore />{" "}
             </ItemGrid>
           </Grid>
         </Grid>
@@ -52,4 +63,4 @@ const HistoryLayoutQ = () => {
   );
 };
 
-export default HistoryLayoutQ;
+export default OneTrainingLayoutPSeeMore;

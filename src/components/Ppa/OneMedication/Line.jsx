@@ -4,8 +4,9 @@ import Chart from "react-apexcharts";
 import { styled } from "@mui/material/styles";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { gridColumnsSelector } from "@mui/x-data-grid";
 
-const OneMedicationBarHorizontal = () => {
+const OneMedicationLine = () => {
   // item stack
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -19,36 +20,35 @@ const OneMedicationBarHorizontal = () => {
 
   const location = useLocation();
 
-  // Id of training and num_enr :
+  // Id of training :
   const idHistory = location.state.idHistory;
   const medicament = location.state.medicament;
 
   // initial values
-  const [codeps, setCodeps] = useState([]);
+  const [center, setCenter] = useState([]);
   const [count, setCount] = useState([]);
-
-  // function to group the data by codeps and count em :
+  const [newWilaya, setNewWilaya] = useState({}); // this for the newWilaya that not exist
+  // function to group the data by center and count em :
   const group = function (array) {
     var r = [],
       o = {};
     array.forEach(function (a) {
-      if (!o[a.codeps]) {
-        o[a.codeps] = { key: a.codeps, value: 0 };
-        r.push(o[a.codeps]);
+      if (!o[a.centre]) {
+        o[a.centre] = { key: a.centre, value: 0 };
+        r.push(o[a.centre]);
       }
-      o[a.codeps].value++;
+      o[a.centre].value++;
     });
     return r;
   };
 
   useEffect(() => {
     // get the medication suspected with count
-    const resultcodeps = [];
+    const resultcenter = [];
     const resultcount = [];
-
     axios
       .get(
-        "http://localhost:8000/DetailsOfMedicationQ/CountCodepsOneMedication/",
+        "http://localhost:8000/DetailsOfMedicationP/CountCenterMedication/",
         {
           params: {
             idEntrainement: idHistory,
@@ -63,29 +63,34 @@ const OneMedicationBarHorizontal = () => {
         // group the data :
         const groupedData = group(data);
 
-        // sorting data by count
-        const SortedData = groupedData.sort((a, b) => {
-          return b.value - a.value;
-        });
+        //push the data into a table of center and count
+        var v = {};
+        // is all wilaya exists
+        for (let i = 1; i < 59; i++) {
+          let find = false;
+          groupedData.map((data, key) => {
+            data.key == i ? (find = true) : false;
+          });
 
-        // push the data into a table of codeps and count
-
-        // push this data into the array of the BARS in the case of ::
-        if (SortedData.length >= 10) {
-          for (let i = 0; i < 10; i++) {
-            resultcodeps.push(SortedData[i].key);
-            resultcount.push(SortedData[i].value);
-          }
-        } else {
-          // if the data < 5 ==> get all the data
-          for (let i = 0; i < SortedData.length; i++) {
-            resultcodeps.push(SortedData[i].key);
-            resultcount.push(SortedData[i].value);
+          // if the wilata does not exist , add the new object
+          if (!find) {
+            v = { key: i, value: 0 };
+            groupedData.push(v);
           }
         }
+        // sort the result by wilaya :
+        const SortedData = groupedData.sort((a, b) => {
+          return a.key - b.key;
+        });
+        //push the result into the final data
+
+        groupedData.map((data, key) => {
+          resultcenter.push(data.key);
+          resultcount.push(data.value);
+        });
 
         // push the result into the series of chart
-        setCodeps(resultcodeps);
+        setCenter(resultcenter);
         setCount(resultcount);
       });
   }, []);
@@ -93,32 +98,43 @@ const OneMedicationBarHorizontal = () => {
   const option = {
     series: [
       {
+        name: "rate",
         data: count,
       },
     ],
     options: {
+      //stroke: { width: 7, curve: "smooth" },
       chart: {
-        type: "bar",
         height: 350,
-      },
-      plotOptions: {
-        bar: {
-          borderRadius: 4,
-          horizontal: true,
+        type: "line",
+        zoom: {
+          enabled: true,
         },
       },
       dataLabels: {
         enabled: false,
       },
+      stroke: {
+        //curve: "straight",
+        curve: "smooth",
+      },
+
+      grid: {
+        row: {
+          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+          opacity: 0.5,
+        },
+      },
+
       xaxis: {
-        categories: codeps,
+        categories: center,
       },
     },
   };
   //Navigation
   const navigate = useNavigate();
   const navigateToOneMedicationSeeMore = (row) => {
-    navigate("/history/quantity/oneMedication/SeeMore", {
+    navigate("/history/ppa/oneMedication/SeeMore", {
       state: { idHistory: idHistory, medicament: medicament },
     });
   };
@@ -145,7 +161,7 @@ const OneMedicationBarHorizontal = () => {
             variant="h6"
             gutterBottom
           >
-            the 5 pharmacy most suspicious
+            The fraud rate in each wilaya
           </Typography>
           <Chip
             label=" See more"
@@ -167,7 +183,7 @@ const OneMedicationBarHorizontal = () => {
         }}
       >
         <Chart
-          type="bar"
+          type="area"
           width="100%"
           height="100%"
           options={option.options}
@@ -178,4 +194,4 @@ const OneMedicationBarHorizontal = () => {
   );
 };
 
-export default OneMedicationBarHorizontal;
+export default OneMedicationLine;

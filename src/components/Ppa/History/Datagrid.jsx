@@ -87,7 +87,7 @@ const HistoryDatagrid = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/historiqueQ/ByTraining")
+      .get("http://localhost:8000/historiqueP/ByTraining")
       .then((response) => {
         setTableData(response.data);
       });
@@ -118,7 +118,7 @@ const HistoryDatagrid = () => {
   const navigateToDetails = (row) => {
     // 👇️ navigate to /contacts in the case  : training is done
     if (row.status === "Success") {
-      navigate("/history/quantity/oneTraining", {
+      navigate("/history/ppa/oneTraining", {
         state: { idHistory: row.id },
       });
       // navigate(`/anotherRoute/${row.id}`);
@@ -149,19 +149,6 @@ const HistoryDatagrid = () => {
       spacing={0}
       sx={{ height: "100%", width: "100%" }}
     >
-      <Snackbar
-        open={open}
-        autoHideDuration={3000}
-        onClose={(event, reason) => setOpen(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-      >
-        <Alert
-          onClose={(event, reason) => setOpen(false)}
-          severity={alertOption.severity}
-        >
-          <strong>{alertOption.msg}</strong>
-        </Alert>
-      </Snackbar>
       <ItemStack elevation={0} sx={{ textAlign: "left" }}>
         <Typography
           color="black"
@@ -215,6 +202,19 @@ const HistoryDatagrid = () => {
           onRowClick={(e) => navigateToDetails(e.row)}
         />
       </ItemStack>
+      <Snackbar
+        open={open}
+        autoHideDuration={3000}
+        onClose={(event, reason) => setOpen(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={(event, reason) => setOpen(false)}
+          severity={alertOption.severity}
+        >
+          <strong>{alertOption.msg}</strong>
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 };

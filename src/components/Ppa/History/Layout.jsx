@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Form from "./Form";
 
-const HistoryLayoutQ = () => {
+const HistoryLayoutP = () => {
   const ItemStack = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     ...theme.typography.body2,
@@ -52,4 +52,4 @@ const HistoryLayoutQ = () => {
   );
 };
 
-export default HistoryLayoutQ;
+export default HistoryLayoutP;
