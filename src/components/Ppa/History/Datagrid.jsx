@@ -45,7 +45,7 @@ const columns = [
   },
   {
     field: "date_de_fin",
-    headerName: "Date de debut",
+    headerName: "Date de fin",
     width: 220,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
@@ -80,7 +80,6 @@ const HistoryDatagrid = () => {
     color: theme.palette.text.secondary,
   }));
   //data
-
   const [tableData, setTableData] = useState([]);
 
   // fetch the data :

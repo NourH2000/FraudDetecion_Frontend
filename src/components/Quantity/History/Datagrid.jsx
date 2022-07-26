@@ -45,7 +45,7 @@ const columns = [
   },
   {
     field: "date_de_fin",
-    headerName: "Date de debut",
+    headerName: "Date de fin",
     width: 220,
     headerClassName: "super-app-theme--header",
     headerAlign: "center",
@@ -86,11 +86,20 @@ const HistoryDatagrid = () => {
   // fetch the data :
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/historiqueQ/ByTraining")
-      .then((response) => {
-        setTableData(response.data);
-      });
+    const interval = setInterval(() => {
+      axios
+        .get("http://localhost:8000/historiqueQ/ByTraining")
+        .then((response) => {
+          setTableData((prev) => {
+            if (JSON.stringify(prev) !== JSON.stringify(response.data)) {
+              console.log("New data....");
+              return response.data;
+            }
+            return prev;
+          });
+        });
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   const HistoryRow = tableData.map((row) => {

@@ -12,16 +12,15 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { BrowserRouter, Route, Routes, Link, Navigate } from "react-router-dom";
 import { routes } from "./routes";
-import { Grid, Icon, Stack } from "@mui/material";
+import { Grid, Icon, Menu, MenuItem, Stack } from "@mui/material";
 import { items } from "./items";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-
+import MenuAppBar from "./MenuAppBar";
 const drawerWidth = 300;
 
 function ResponsiveDrawer(props) {
@@ -51,6 +50,7 @@ function ResponsiveDrawer(props) {
         </Typography>
       </Stack>
       {/*<Divider sx={{ backgroundColor: "white" }} />*/}
+
       <Toolbar />
       <List>
         {items.map((item) => {
@@ -112,6 +112,8 @@ function ResponsiveDrawer(props) {
             >
               <MenuIcon />
             </IconButton>
+            <Box sx={{ flexGrow: 1 }} />
+            <MenuAppBar />
           </Toolbar>
         </AppBar>
         <Box
