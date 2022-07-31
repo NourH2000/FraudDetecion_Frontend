@@ -1,4 +1,5 @@
 import Overview from "./components/Overview/Overview";
+import Settings from "./components/Parameter/Settings";
 // quantity routes
 import HistoryLayoutQ from "./components/Quantity/History/Layout";
 import OneMedicationLayoutQ from "./components/Quantity/OneMedication/Layout";
@@ -43,5 +44,9 @@ export const routes = [
   {
     path: "/history/ppa/oneMedication/SeeMore",
     component: OneMedicationLayoutPSeeMore,
+  },
+  {
+    path: "/settings",
+    component: Settings,
   },
 ];

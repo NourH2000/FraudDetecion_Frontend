@@ -15,19 +15,25 @@ const MenuAppBar = () => {
     setAnchorEl(null);
   };
 
-  //data
+  //Notification count
+
   const [notificationsCount, setNotificationsCount] = useState([]);
-  const [notificationsIds, setNotificationsIds] = useState([]);
+  // to get the list of unseen notification
+  const [notifications, setNotifications] = useState([]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       axios
         .get("http://localhost:8000/notification/NotificationCount")
         .then((response) => {
-          setNotificationsIds(response.data);
-
           setNotificationsCount((prev) => {
             if (JSON.stringify(prev) !== JSON.stringify(response.data)) {
-              return response.data.length;
+              axios
+                .get("http://localhost:8000/notification/NotificationData")
+                .then((response) => {
+                  setNotifications(response.data);
+                });
+              return response.data[0].count;
             }
           });
         });
@@ -36,23 +42,38 @@ const MenuAppBar = () => {
   }, []);
 
   // to get the list of unseen ids ( as a list and not an objects)
+  const [notificationsIds, setNotificationsIds] = useState([]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      axios
+        .get("http://localhost:8000/notification/NotificationAllId")
+        .then((response) => {
+          setNotificationsIds(response.data);
+        });
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
   // update the notification state ( seen ) when we clic on the notification icon
+
   const handleMenu = async (event) => {
     setAnchorEl(event.currentTarget);
-    notificationsIds.map(async (notificationId) => {
-      console.log(notificationId);
-      await axios
-        .get("http://localhost:8000/notification/NotificationUpdate", {
-          params: {
-            ids: notificationId,
-          },
-        })
-        .then((response) => {
-          console.log("hey");
-        });
-    });
+    // get all the notifications ids unseen
+    if (notificationsIds.length != 0 && notificationsIds != undefined) {
+      notificationsIds.map((notifId) => {
+        axios
+          .get("http://localhost:8000/notification/NotificationUpdate", {
+            params: {
+              id: notifId.id,
+            },
+          })
+          .then((response) => {
+            setNotificationsIds([]);
+          });
+      });
+    }
   };
+
   return (
     <Box sx={{ display: { xs: "none", md: "flex" } }}>
       <IconButton size="large" aria-label="show 4 new mails" color="inherit">
@@ -85,8 +106,9 @@ const MenuAppBar = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
+        {notifications?.map((notification) => {
+          <MenuItem onClick={handleClose}>{notification.msg}</MenuItem>;
+        })}
       </Menu>
       <IconButton
         size="large"

@@ -49,7 +49,7 @@ export const items = [
   //{ icon: "", path: "/historique", type: "", label: "devider" },
   {
     icon: <SettingsIcon />,
-    path: "",
+    path: "/settings",
     type: "item",
     label: "parameter",
   },
